@@ -18,7 +18,7 @@ const sharedSchema = new mongoose.Schema({
     type: "mongoose.Schema.Types.ObjectId",
     ref: "RequestModel",
   },
-  expiryTIme: {
+  expiryTime: {
     type: Date,
     required: true,
   },

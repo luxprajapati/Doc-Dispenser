@@ -10,6 +10,11 @@ const documentSchema = new mongoose.Schema({
     type: String,
     enum: ["pdf", "doc", "docx", "txt", "jpg", "jpeg", "png"],
   },
+  status: {
+    type: String,
+    enum: ["active", "inactive"],
+    default: "inactive",
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -20,4 +25,4 @@ const documentSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("DocumenModel", documentSchema);
+module.exports = mongoose.model("DocumentModel", documentSchema);

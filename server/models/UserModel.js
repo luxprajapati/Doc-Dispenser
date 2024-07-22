@@ -25,21 +25,27 @@ const userSchema = new mongoose.Schema({
   sharedFiles: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "DocumenModel",
+      ref: "DocumentModel",
     },
   ],
   activeSharedFiles: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "DocumenModel",
+      ref: "DocumentModel",
     },
   ],
   userAllFiles: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "DocumenModel",
+      ref: "DocumentModel",
     },
   ],
+  token: {
+    type: String,
+  },
+  resetPasswordExpiry: {
+    type: Date,
+  },
 });
 
 module.exports = mongoose.model("UserModel", userSchema);
