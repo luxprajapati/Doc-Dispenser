@@ -11,10 +11,6 @@ const requestSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  documentOwner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "UserModel",
-  },
   requestedDocument: [
     {
       type: mongoose.Schema.Types.ObjectId,

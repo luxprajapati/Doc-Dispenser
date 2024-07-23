@@ -109,27 +109,27 @@ exports.signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const sharedFiles = await DocumentModel.create({
+      documentOwner: null,
       documentName: null,
-      documentType: null,
       status: null,
+      file: null,
       createdAt: null,
-      encryptedData: null,
     });
 
     const activeSharedFiles = await DocumentModel.create({
+      documentOwner: null,
       documentName: null,
-      documentType: null,
       status: null,
+      file: null,
       createdAt: null,
-      encryptedData: null,
     });
 
     const userAllFiles = await DocumentModel.create({
+      documentOwner: null,
       documentName: null,
-      documentType: null,
       status: null,
+      file: null,
       createdAt: null,
-      encryptedData: null,
     });
 
     const newUser = await UserModel.create({

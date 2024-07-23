@@ -1,22 +1,20 @@
 const mongoose = require("mongoose");
 
 const sharedSchema = new mongoose.Schema({
-  documentName: {
-    type: String,
-    required: [true, "Document name is required"],
-    trim: true,
-  },
-  documentOwner: {
+  documents: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserModel",
+    ref: "DocumentModel",
+    required: true,
   },
-  sharedWithName: {
+  sharedUserName: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "RequestModel",
+    required: true,
   },
-  sharedWithEmail: {
-    type: "mongoose.Schema.Types.ObjectId",
+  sharedUserEmail: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: "RequestModel",
+    required: true,
   },
   expiryTime: {
     type: Date,

@@ -1,14 +1,19 @@
 const mongoose = require("mongoose");
 
 const documentSchema = new mongoose.Schema({
+  documentOwner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserModel",
+    required: true,
+  },
   documentName: {
     type: String,
     required: [true, "Document name is required"],
     trim: true,
   },
-  documentType: {
+  file: {
     type: String,
-    enum: ["pdf", "doc", "docx", "txt", "jpg", "jpeg", "png"],
+    required: [true, "File url is required"],
   },
   status: {
     type: String,
@@ -18,10 +23,6 @@ const documentSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-  },
-  encryptedData: {
-    type: Buffer,
-    required: true,
   },
 });
 
