@@ -24,14 +24,14 @@ const userSchema = new mongoose.Schema({
   },
   sharedFiles: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "DocumentModel",
-    },
-  ],
-  activeSharedFiles: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "DocumentModel",
+      documentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "DocumentModel",
+      },
+      expiryTime: {
+        type: Date,
+        default: null,
+      },
     },
   ],
   userAllFiles: [

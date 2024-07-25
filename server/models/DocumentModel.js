@@ -15,11 +15,6 @@ const documentSchema = new mongoose.Schema({
     type: String,
     required: [true, "File url is required"],
   },
-  status: {
-    type: String,
-    enum: ["active", "inactive"],
-    default: "inactive",
-  },
   createdAt: {
     type: Date,
     default: Date.now,

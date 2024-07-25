@@ -111,15 +111,6 @@ exports.signup = async (req, res) => {
     const sharedFiles = await DocumentModel.create({
       documentOwner: null,
       documentName: null,
-      status: null,
-      file: null,
-      createdAt: null,
-    });
-
-    const activeSharedFiles = await DocumentModel.create({
-      documentOwner: null,
-      documentName: null,
-      status: null,
       file: null,
       createdAt: null,
     });
@@ -127,7 +118,6 @@ exports.signup = async (req, res) => {
     const userAllFiles = await DocumentModel.create({
       documentOwner: null,
       documentName: null,
-      status: null,
       file: null,
       createdAt: null,
     });
@@ -138,7 +128,6 @@ exports.signup = async (req, res) => {
       email,
       password: hashedPassword,
       sharedFiles,
-      activeSharedFiles,
       userAllFiles,
     });
 

@@ -25,7 +25,6 @@ exports.createDocument = async (req, res) => {
       documentOwner: req.user.email,
       documentName,
       file: docFile.secure_url,
-      status,
     });
 
     await UserModel.findOneAndUpdate(
@@ -148,6 +147,22 @@ exports.deleteDocument = async (req, res) => {
     }
 
     await document.findByIdAndDelete(documentId);
+
+    await UserModel.findByIdAndUpdate(
+      {
+        _id: req.user.id,
+      },
+      {
+        $pull: {
+          userAllFiles: documentId,
+          sharedFiles: documentId,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+
     return res.status(200).json({
       success: true,
       message: "Document deleted successfully [Document]",

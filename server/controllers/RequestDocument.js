@@ -6,6 +6,7 @@ const approvedDocumentsListTemplate = require("../mail/templates/approvedDocList
 const rejectRequestMailTemplate = require("../mail/templates/rejectReason");
 const DocumentModel = require("../models/DocumentModel");
 const JWT = require("jsonwebtoken");
+const UserModel = require("../models/UserModel");
 
 exports.requestDocuments = async (req, res) => {
   try {
@@ -89,6 +90,35 @@ exports.approveRequest = async (req, res) => {
 
     request.requestStatus = "approved";
     await request.save();
+
+    const approvedDocumentList = request.requestedDocument.map((doc) => ({
+      docId: doc._id,
+      expiryTime: expiryTime,
+    }));
+
+    await UserModel.findByIdAndUpdate(
+      req.user._id,
+      {
+        $addToSet: { sharedFiles: { $each: approvedDocumentList } },
+      },
+      { new: true }
+    );
+
+    if (expiryTime !== 0) {
+      setTimeout(async () => {
+        await UserModel.findByIdAndUpdate(
+          req.user._id,
+          {
+            $pull: {
+              sharedFiles: { expiryTime: { $lte: new Date() } },
+            },
+          },
+          {
+            new: true,
+          }
+        );
+      }, expiryTime);
+    }
 
     const secureLinks = request.requestedDocument.map((doc) =>
       secureUrlGenerator(doc._id, expiryTime)
