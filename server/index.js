@@ -39,9 +39,9 @@ app.use("/api/v1/auth", userRoute);
 app.use("/api/v1/document", documentRoute);
 
 const server = app.listen(PORT, () => {
-  console.log(`docDispenser server is running on port ${PORT}`);
+  console.log(`Doc-Dispenser Server is running on PORT:- ${PORT}`);
 });
 
 server.on("error", (err) => {
-  console.log("Error in starting the docDispenser server", err);
+  console.log("ERROR WHILE CONNECTING TO THE DATABASE SERVER:- ", err);
 });

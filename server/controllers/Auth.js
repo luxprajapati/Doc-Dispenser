@@ -3,7 +3,7 @@ const OtpModel = require("../models/OtpModel");
 const JWT = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
 const bcrypt = require("bcryptjs");
-const DocumentModel = require("../models/DocumentModel");
+// const DocumentModel = require("../models/DocumentModel");
 const { mailSender } = require("../utils/mailSender");
 const { passwordUpdatation } = require("../mail/templates/passwordUpdation");
 
@@ -108,33 +108,33 @@ exports.signup = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const sharedFiles = await DocumentModel.create({
-      documentOwner: null,
-      documentName: null,
-      file: null,
-      createdAt: null,
-    });
+    // const sharedFiles = await DocumentModel.create({
+    //   documentOwner: null,
+    //   documentName: null,
+    //   file: null,
+    //   createdAt: null,
+    // });
 
-    const userAllFiles = await DocumentModel.create({
-      documentOwner: null,
-      documentName: null,
-      file: null,
-      createdAt: null,
-    });
+    // const userAllFiles = await DocumentModel.create({
+    //   documentOwner: null,
+    //   documentName: null,
+    //   file: null,
+    //   createdAt: null,
+    // });
 
     const newUser = await UserModel.create({
       firstName,
       lastName,
       email,
       password: hashedPassword,
-      sharedFiles,
-      userAllFiles,
+      // sharedFiles: sharedFiles._id,
+      // userAllFiles: userAllFiles._id,
     });
 
     console.log("User Signed up successfully [Auth]:- ", newUser);
 
     return res.status(200).json({
-      success: false,
+      success: true,
       message: "User signed up successfully [Auth]",
       data: newUser,
     });
@@ -255,7 +255,7 @@ exports.changePassword = async (req, res) => {
     }
 
     return res.status(200).json({
-      success: false,
+      success: true,
       message: "Password changed successfully [Auth]",
     });
   } catch (err) {

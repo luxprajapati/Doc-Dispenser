@@ -7,10 +7,10 @@ require("dotenv").config();
 // Function to create a document
 exports.createDocument = async (req, res) => {
   try {
-    const { documentName, status } = req.body;
-    const file = req.files.docFile;
+    const { documentName } = req.body;
+    const file = req.files.doc;
 
-    if (!documentName || !status || !file) {
+    if (!documentName || !file) {
       return res.status(400).json({
         success: false,
         message: "Document name, status and file are required",
@@ -18,13 +18,16 @@ exports.createDocument = async (req, res) => {
     }
 
     const userId = req.user.id;
+    console.log("User ID [Document]:- ", userId);
 
-    const docFile = await uploadFileToCloudinary(file, process.env.FOLDER_NAME);
+    const doc = await uploadFileToCloudinary(file, process.env.FOLDER_NAME);
+
+    // console.log("docFile [Document]:- ", doc);
 
     const newDocument = await DocumentModel.create({
-      documentOwner: req.user.email,
+      documentOwner: userId,
       documentName,
-      file: docFile.secure_url,
+      file: doc.secure_url,
     });
 
     await UserModel.findOneAndUpdate(
@@ -63,9 +66,10 @@ exports.getAllDocuments = async (req, res) => {
         file: 1,
       }
     )
-      .populate("documentOwner")
+      .populate()
       .exec();
 
+    console.log("get all documents [Document]:- ", documents);
     return res.status(200).json({
       success: true,
       message: "All documents fetched successfully [Document]",

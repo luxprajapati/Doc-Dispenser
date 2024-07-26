@@ -1,15 +1,13 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-exports.connectDB = async () => {
+exports.connectDB = () => {
   mongoose
     .connect(process.env.MONGODB_URL, {})
-    .then(() => {
-      console.log("docDispenser database connected");
-    })
-    .catch((err) => {
-      console.log("docDispenser database connection failed!");
-      console.log(err);
+    .then(() => console.log("Doc-Dispenser Server is Connected"))
+    .catch((error) => {
+      console.log("-------Doc-Dispenser SERVER FAILED-------");
+      console.error(error);
       process.exit(1);
     });
 };

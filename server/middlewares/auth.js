@@ -15,7 +15,7 @@ exports.auth = async (req, res, next) => {
         data: token,
       });
     }
-    console.log("Token: -", token);
+    console.log("Token [auth.js]: -", token);
 
     try {
       const decoded = await JWT.verify(token, process.env.JWT_SECRET);

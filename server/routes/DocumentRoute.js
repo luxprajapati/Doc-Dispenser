@@ -23,8 +23,8 @@ const {
 // Document Routes
 // ****************************************************
 
-router.get("/get-all-documents", getAllDocuments);
 router.post("/create-document", auth, createDocument);
+router.get("/get-all-documents", getAllDocuments);
 router.post("/edit-document", auth, editDocument);
 router.delete("/delete-document", deleteDocument);
 
