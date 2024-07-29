@@ -1,5 +1,6 @@
 const requestedDocumentListTemplate = (
   requestedUser,
+  requestedUserEmail,
   requestDocuments,
   approveLink,
   rejectLink
@@ -87,7 +88,7 @@ const requestedDocumentListTemplate = (
 <body>
   <div class="container">
     <h3>Document Request Received</h3>
-    <p>${requestedUser} has requested access to the following documents:</p>
+    <p>${requestedUser}[${requestedUserEmail}] has requested access to the following documents:</p>
     <ul>
       ${requestDocuments.map((docId) => `<li>${docId.documentName}</li>`).join("")}
     </ul>

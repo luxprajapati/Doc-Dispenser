@@ -19,6 +19,7 @@ exports.auth = async (req, res, next) => {
 
     try {
       const decoded = await JWT.verify(token, process.env.JWT_SECRET);
+      console.log("Decoded Token [auth.js]:- ", decoded);
       req.user = decoded;
     } catch (err) {
       console.log("Invalid Token [auth.js]:- ", err);

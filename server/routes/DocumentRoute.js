@@ -26,13 +26,13 @@ const {
 router.post("/create-document", auth, createDocument);
 router.get("/get-all-documents", getAllDocuments);
 router.post("/edit-document", auth, editDocument);
-router.delete("/delete-document", deleteDocument);
+router.delete("/delete-document", auth, deleteDocument);
 
 // ***************************************************
 // Request routes
 // ***************************************************
 
-router.get("/request-documents", requestDocuments);
+router.get("/request-documents", auth, requestDocuments);
 router.post("/approve-request", approveRequest);
 router.post("/reject-request", rejectRequest);
 router.get("/view-document/:id", viewDocument);

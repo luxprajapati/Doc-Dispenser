@@ -29,17 +29,20 @@ exports.requestDocuments = async (req, res) => {
     const approveLink = `http://localhost:3000/approve-request/${newRequest._id}`;
     const rejectLink = `http://localhost:3000/reject-request/${newRequest._id}`;
 
+    const user = req.user;
+    console.log("User [RequestDocument]:- ", user);
     try {
-      const sendingRequestMail = await mailSender({
-        email: requestedUserEmail,
-        subject: "Request for the document",
-        requestedDocumentListTemplate: requestedDocumentListTemplate(
+      const sendingRequestMail = await mailSender(
+        user.email,
+        "Request for the document",
+        requestedDocumentListTemplate(
           requestedUser,
+          requestedUserEmail,
           requestDocuments,
           approveLink,
           rejectLink
-        ),
-      });
+        )
+      );
       console.log(
         "RequestDocument Mail Sent Successfully:-[RequestDocument] ",
         sendingRequestMail

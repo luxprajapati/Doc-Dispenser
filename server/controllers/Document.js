@@ -100,12 +100,9 @@ exports.editDocument = async (req, res) => {
     }
 
     if (req.files) {
-      const file = req.files.docFile;
-      const docFile = await uploadFileToCloudinary(
-        file,
-        process.env.FOLDER_NAME
-      );
-      document.file = docFile.secure_url;
+      const file = req.files.doc;
+      const doc = await uploadFileToCloudinary(file, process.env.FOLDER_NAME);
+      document.file = doc.secure_url;
     }
 
     for (const key in updates) {
@@ -141,16 +138,25 @@ exports.editDocument = async (req, res) => {
 exports.deleteDocument = async (req, res) => {
   try {
     const { documentId } = req.body;
+    console.log("Document ID [Document]:- ", documentId);
     const document = await DocumentModel.findById(documentId);
 
     if (!document) {
+      console.log("Document Not Found [Document]");
       return res.status(404).json({
         success: false,
         message: "Document not found",
       });
     }
 
-    await document.findByIdAndDelete(documentId);
+    await DocumentModel.findByIdAndDelete(documentId);
+
+    // Add logging to check if req.user is defined
+    if (!req.user) {
+      console.error("req.user is undefined");
+    } else {
+      console.log("userId [document]:", req.user.id);
+    }
 
     await UserModel.findByIdAndUpdate(
       {
@@ -166,10 +172,13 @@ exports.deleteDocument = async (req, res) => {
         new: true,
       }
     );
+    const user = await UserModel.findById(req.user.id);
+    // console.log("User in [Document]:- ", user);
 
     return res.status(200).json({
       success: true,
       message: "Document deleted successfully [Document]",
+      data: user,
     });
   } catch (err) {
     console.log("Error while deleting the document [Document]:- ", err);
