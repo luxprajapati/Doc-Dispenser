@@ -1,13 +1,27 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { matchPath, NavLink, useLocation } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 
 const Navbar = () => {
+  const location = useLocation();
+  const matchRoute = (route) => {
+    return matchPath({ path: route }, location.pathname);
+  };
   return (
-    <div className="flex flex-row  w-full mx-auto text-slate-300 border-b border-slate-300">
+    <div
+      className={`flex flex-row  w-full mx-auto text-slate-300 
+        ${
+          matchRoute(`login`) || matchRoute(`signup`)
+            ? "shadow-[0px_6px_6px_rgba(21,_22,_23,_0.6)] bg-slate-100"
+            : "shadow-[0px_4px_6px_rgba(155,_175,_189,_0.6)] bg-zinc-900"
+        }`}
+    >
       <div className="flex flex-row w-10/12 justify-between items-center mx-auto my-3">
         <div className="text-slate-300 text-3xl font-extrabold  select-none ">
-          <NavLink to={"/"} className="text-slate-300">
+          <NavLink
+            to={"/"}
+            className={`${matchRoute(`login`) || matchRoute(`signup`) ? "text-zinc-900" : "text-slate-300"}`}
+          >
             docDispenser
           </NavLink>
         </div>
@@ -15,7 +29,10 @@ const Navbar = () => {
           {
             // token === null &&
             <NavLink to="/login">
-              <button className="border hidden sm:flex border-slate-300 px-[12px] py-[8px] rounded-md hover:scale-95 transition-all duration-200">
+              <button
+                className={`border hidden sm:flex  px-[12px] py-[8px] rounded-md hover:scale-95 transition-all duration-200 
+                  ${matchRoute(`login`) || matchRoute(`signup`) ? "text-zinc-900 border-zinc-900" : "text-slate-300 border-slate-300"} font-bold `}
+              >
                 Log in
               </button>
             </NavLink>
@@ -23,7 +40,11 @@ const Navbar = () => {
           {
             // token === null &&
             <NavLink to="/signup">
-              <button className="border hidden sm:flex border-slate-300 px-[12px] py-[8px] rounded-md hover:scale-95 transition-all duration-200">
+              <button
+                className={`border hidden sm:flex px-[12px] py-[8px] rounded-md hover:scale-95 transition-all duration-200
+                ${matchRoute(`login`) || matchRoute(`signup`) ? "text-zinc-900 border-zinc-900" : "text-slate-300 border-slate-300"} font-bold
+                `}
+              >
                 Sign Up
               </button>
             </NavLink>

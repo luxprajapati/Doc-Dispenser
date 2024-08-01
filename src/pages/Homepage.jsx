@@ -4,7 +4,7 @@ import { GrDocumentLocked } from "react-icons/gr";
 
 const Homepage = () => {
   return (
-    <div className="text-slate-300 flex flex-row mx-auto font-poppins sm:my-auto w-full justify-center items-center">
+    <div className="text-slate-300 flex flex-row mx-auto font-poppins sm:my-auto  w-full justify-center items-center">
       <div className="flex flex-col md:flex-row mx-auto my-10 sm:w-10/12 w-11/12  justify-evenly items-center gap-x-10 select-none shadow-[0px_0px_20px_rgba(157,_227,_217,_0.8)] sm:p-16 p-10  rounded-xl">
         {/* left-section */}
         <div className="md:w-[60%] w-full flex flex-row justify-center items-center mx-auto ">
