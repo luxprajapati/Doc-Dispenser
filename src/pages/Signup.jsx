@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { NavLink } from "react-router-dom";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
