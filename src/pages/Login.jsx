@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../services/operations/authAPI";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,7 +22,7 @@ const Login = () => {
   // console.log("FormData", formData);
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    // login logic pending
+    dispatch(login(email, password, navigate));
   };
 
   return (

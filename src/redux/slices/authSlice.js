@@ -4,6 +4,7 @@ const initialState = {
   token: localStorage.getItem("token")
     ? JSON.parse(localStorage.getItem("token"))
     : null,
+  // token: null,
   signupData: null,
   loading: false,
 };

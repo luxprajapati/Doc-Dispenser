@@ -1,8 +1,15 @@
 import React from "react";
-import { matchPath, NavLink, useLocation } from "react-router-dom";
+import { matchPath, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../services/operations/authAPI";
+import ProfileDropdown from "./ProfileDropdown";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  // console.log("token", token);
   const location = useLocation();
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname);
@@ -26,8 +33,7 @@ const Navbar = () => {
           </NavLink>
         </div>
         <div className=" flex-row justify-center gap-x-3 items-center flex ">
-          {
-            // token === null &&
+          {token === null && (
             <NavLink to="/login">
               <button
                 className={`border hidden sm:flex  px-[12px] py-[8px] rounded-md hover:scale-95 transition-all duration-200 
@@ -36,9 +42,8 @@ const Navbar = () => {
                 Log in
               </button>
             </NavLink>
-          }
-          {
-            // token === null &&
+          )}
+          {token === null && (
             <NavLink to="/signup">
               <button
                 className={`border hidden sm:flex px-[12px] py-[8px] rounded-md hover:scale-95 transition-all duration-200
@@ -48,11 +53,20 @@ const Navbar = () => {
                 Sign Up
               </button>
             </NavLink>
-          }
-          {
-            // token !== null &&
-            // <ProfileDropdown user={user} />
-          }
+          )}
+          {token !== null && (
+            <button
+              onClick={() => {
+                dispatch(logout(navigate));
+              }}
+              className={`border hidden sm:flex px-[12px] py-[8px] rounded-md hover:scale-95 transition-all duration-200
+                ${matchRoute(`login`) || matchRoute(`signup`) ? "text-zinc-900 border-zinc-900" : "text-slate-300 border-slate-300"} font-bold
+                `}
+            >
+              Logout
+            </button>
+          )}
+          {token !== null && <ProfileDropdown />}
 
           <button
             className="sm:hidden flex flex-row justify-center items-center"

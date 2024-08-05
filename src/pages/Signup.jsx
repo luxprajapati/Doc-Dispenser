@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { sentotp, signup } from "../services/operations/authAPI";
+import { setSignupData } from "../redux/slices/authSlice";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,7 +27,25 @@ const Signup = () => {
   // console.log("FormData", formData);
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    // login logic pending
+    if (password !== confirmPassword) {
+      toast.error("Password and Confirm Password should be same");
+      return;
+    }
+    const signupData = {
+      ...formData,
+    };
+    // console.log("Signup Data", signupData);
+    dispatch(setSignupData(signupData));
+    // send otp
+    dispatch(sentotp(formData.email, navigate));
+
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
   };
 
   return (

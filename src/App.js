@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import { useLocation } from "react-router-dom";
 import Signup from "./pages/Signup";
+import OtpPage from "./pages/OtpPage";
 
 function App() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/verify-otp" element={<OtpPage />} />
       </Routes>
     </div>
   );
