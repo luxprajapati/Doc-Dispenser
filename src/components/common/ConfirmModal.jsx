@@ -26,12 +26,12 @@ const ConfirmModal = ({ onClose, setIsModalOpen, getAllDocs, docId }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50 text-[17px]">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-zinc-900 opacity-10 cursor-pointer"
+        className="absolute inset-0 bg-zinc-900 opacity-80 cursor-pointer"
         onClick={onClose}
       ></div>
 
       {/* Modal Content */}
-      <div className="bg-white rounded-lg absolute shadow-lg z-60 max-w-sm w-full p-6 mx-4">
+      <div className="bg-slate-100 rounded-lg absolute shadow-lg z-60 max-w-sm w-full p-6 mx-4">
         <p className="text-gray-700 font-semibold mb-6 text-[17px] leading-[24px]">
           Are you sure you want to delete this document? This action cannot be
           undone.

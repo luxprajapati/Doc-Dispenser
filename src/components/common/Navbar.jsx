@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { matchPath, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/operations/authAPI";
 import ProfileDropdown from "./ProfileDropdown";
+import Dropdown from "./Dropdown";
 
 const Navbar = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
@@ -14,6 +18,12 @@ const Navbar = () => {
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname);
   };
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div
       className={`flex flex-row  w-full mx-auto text-slate-300 
@@ -54,7 +64,7 @@ const Navbar = () => {
               </button>
             </NavLink>
           )}
-          {token !== null && (
+          {/* {token !== null && (
             <button
               onClick={() => {
                 dispatch(logout(navigate));
@@ -65,16 +75,18 @@ const Navbar = () => {
             >
               Logout
             </button>
-          )}
-          {token !== null && <ProfileDropdown />}
+          )} */}
+          {token !== null && windowWidth >= 640 && <ProfileDropdown />}
 
+          {token != null && showDropdown && (
+            <Dropdown setOpen={setOpen} open={open} />
+          )}
           <button
             className="sm:hidden flex flex-row justify-center items-center"
-            onClick={() =>
-              alert(
-                "Please visit us on desktop for better experience. Thank you!"
-              )
-            }
+            onClick={() => {
+              setOpen(true);
+              setShowDropdown(true);
+            }}
           >
             <AiOutlineMenu fontSize={26} fill="#AFB2BF" />
           </button>
