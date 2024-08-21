@@ -97,6 +97,7 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Confirmation modal */}
       {isModalOpen && (
         <ConfirmModal
           onClose={() => setIsModalOpen(false)}
