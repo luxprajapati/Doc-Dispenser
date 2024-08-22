@@ -78,9 +78,10 @@ const Navbar = () => {
           )} */}
           {token !== null && windowWidth >= 640 && <ProfileDropdown />}
 
-          {token != null && showDropdown && (
-            <Dropdown setOpen={setOpen} open={open} />
-          )}
+          {
+            // token != null &&
+            showDropdown && <Dropdown setOpen={setOpen} open={open} />
+          }
           <button
             className="sm:hidden flex flex-row justify-center items-center"
             onClick={() => {

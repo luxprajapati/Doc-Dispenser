@@ -6,6 +6,7 @@ import { logout } from "../../services/operations/authAPI";
 // icons
 import { VscDashboard, VscSignOut } from "react-icons/vsc";
 import { MdOutlineManageAccounts } from "react-icons/md";
+import { HiOutlineDocumentPlus } from "react-icons/hi2";
 
 // hooks
 import useOnClickOutside from "../../hooks/useOnClickOutside";
@@ -33,7 +34,7 @@ export default function ProfileDropdown() {
       {open && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="absolute top-[200%] right-0 z-[1000] divide-y-[1px] divide-richblack-700 overflow-hidden rounded-md border-[1px] border-richblack-700 bg-zinc-900 "
+          className="absolute min-w-[160px] top-[200%] right-0 z-[1000] divide-y-[1px] divide-richblack-700 overflow-hidden rounded-md border-[1px] border-richblack-700 bg-zinc-900 "
           ref={ref}
         >
           <Link to="/dashboard" onClick={() => setOpen(false)}>
@@ -42,6 +43,17 @@ export default function ProfileDropdown() {
               Dashboard
             </div>
           </Link>
+
+          <div
+            onClick={() => {
+              navigate("/create-document");
+              setOpen(false);
+            }}
+            className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
+          >
+            <HiOutlineDocumentPlus className="text-lg" />
+            Create Document
+          </div>
           <div
             onClick={() => {
               dispatch(logout(navigate));
@@ -49,7 +61,7 @@ export default function ProfileDropdown() {
             }}
             className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
           >
-            <VscSignOut className="text-lg" />
+            <VscSignOut className="text-lg rotate-180" />
             Logout
           </div>
         </div>

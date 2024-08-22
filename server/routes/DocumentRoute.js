@@ -10,6 +10,7 @@ const {
   getAllDocuments,
   editDocument,
   deleteDocument,
+  getDocumentDetails,
 } = require("../controllers/Document");
 
 const {
@@ -27,6 +28,7 @@ router.post("/create-document", auth, createDocument);
 router.get("/get-all-documents", getAllDocuments);
 router.post("/edit-document", auth, editDocument);
 router.delete("/delete-document", auth, deleteDocument);
+router.post("/get-document-details", auth, getDocumentDetails);
 
 // ***************************************************
 // Request routes

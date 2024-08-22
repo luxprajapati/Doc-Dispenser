@@ -9,6 +9,7 @@ import OtpPage from "./pages/OtpPage";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
+import CreateDocument from "./pages/CreateDocument";
 
 function App() {
   const location = useLocation();
@@ -61,6 +62,24 @@ function App() {
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/create-document"
+          element={
+            <PrivateRoute>
+              <CreateDocument />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/edit-document/:id"
+          element={
+            <PrivateRoute>
+              <CreateDocument />
             </PrivateRoute>
           }
         />

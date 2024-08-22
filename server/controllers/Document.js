@@ -189,3 +189,32 @@ exports.deleteDocument = async (req, res) => {
     });
   }
 };
+
+// function to get document details
+exports.getDocumentDetails = async (req, res) => {
+  try {
+    const { documentId } = req.body;
+    // const user = req.user.id;
+    const documentDetails = await DocumentModel.findOne({ _id: documentId })
+      .populate()
+      .exec();
+
+    if (!documentDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "Document not found",
+      });
+    }
+  } catch (error) {
+    console.log(
+      "Error while getting the document details [Document]:- ",
+      error
+    );
+    return res.status(500).json({
+      success: false,
+      message:
+        "Internal server error while getting the document details [Document]",
+      error: error.message,
+    });
+  }
+};

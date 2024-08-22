@@ -17,6 +17,7 @@ export const documentEndpoints = {
   GETALLDOCS_API: BASE_URL + "/document/get-all-documents",
   EDITDOC_API: BASE_URL + "/document/edit-document",
   DELETEDOC_API: BASE_URL + "/document/delete-document",
+  GETDOCDETAILS_API: BASE_URL + "/document/get-document-details",
 
   REQUESTDOC_API: BASE_URL + "/document/request-documents",
   APPROVEREQUEST_API: BASE_URL + "/document/approve-request",

@@ -26,3 +26,10 @@ body::-webkit-scrollbar {
   background-color: #888;
   /* Change color when hovered */
 }
+
+
+/* Form css */
+
+.form-style {
+  @apply rounded-lg bg-zinc-800 p-3 text-[16px] leading-[24px] text-slate-300 shadow-[0_1px_0_0] shadow-white/50 placeholder:text-slate-300 focus:outline-none;
+}

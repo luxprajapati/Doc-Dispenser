@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   document: null,
-  editDocument: null,
+  editDocument: false,
 };
 
 const docSlice = createSlice({
