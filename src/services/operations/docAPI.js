@@ -1,17 +1,16 @@
-import { setLoading, setToken } from "../../redux/slices/authSlice";
 import { documentEndpoints } from "../apis";
 import { apiConnector } from "../apiConnector";
 import toast from "react-hot-toast";
 
 const {
   CREATEDOC_API,
-  GETALLDOCS_API,
+  // GETALLDOCS_API,
   EDITDOC_API,
   DELETEDOC_API,
-  REQUESTDOC_API,
-  APPROVEREQUEST_API,
-  REJECTREQUEST_API,
-  VIEWDOC_API,
+  // REQUESTDOC_API,
+  // APPROVEREQUEST_API,
+  // REJECTREQUEST_API,
+  // VIEWDOC_API,
   GETDOCDETAILS_API,
 } = documentEndpoints;
 
@@ -21,7 +20,7 @@ export const deleteDocument = async (data, token) => {
     const response = await apiConnector("DELETE", DELETEDOC_API, data, {
       Authorization: `Bearer ${token}`,
     });
-    console.log("DELETE DOC RESPONSE...............", response.data);
+    // console.log("DELETE DOC RESPONSE...............", response.data);
     if (!response.data.success) {
       throw new Error(response.data.message);
     }
@@ -41,7 +40,7 @@ export const createDocument = async (data, token) => {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     });
-    console.log("Create Doc Response:- ", response.data.data);
+    // console.log("Create Doc Response:- ", response.data.data);
     if (!response.data.success) {
       throw new Error(response.data.message);
     }
@@ -63,7 +62,7 @@ export const editDocumentDetails = async (data, token) => {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     });
-    console.log("Edit Doc Response:- ", response.data.data);
+    // console.log("Edit Doc Response:- ", response.data.data);
     if (!response.data.success) {
       throw new Error("Failed to edit document");
     }
@@ -78,7 +77,6 @@ export const editDocumentDetails = async (data, token) => {
 };
 
 export const getDocumentDetails = async (documentId, token) => {
-  console.log("DocumentId:- ", documentId);
   const toastId = toast.loading("Fecthing Document Details...");
   let result = null;
   try {
@@ -90,7 +88,7 @@ export const getDocumentDetails = async (documentId, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("GET DOC DETAILS RESPONSE...............", response.data);
+    // console.log("GET DOC DETAILS RESPONSE...............", response.data);
     if (!response.data.success) {
       throw new Error(response.data.message);
     }

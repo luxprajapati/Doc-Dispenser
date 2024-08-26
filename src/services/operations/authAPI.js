@@ -22,7 +22,7 @@ export function sentotp(email, navigate) {
         checkUserPresent: true,
       });
 
-      console.log("SENDOTP_API RESPONSE...............", response);
+      // console.log("SENDOTP_API RESPONSE...............", response);
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
@@ -59,7 +59,7 @@ export function signup(
         otp,
       });
 
-      console.log("SIGNUP_API RESPONSE...............", response);
+      // console.log("SIGNUP_API RESPONSE...............", response);
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
@@ -84,7 +84,7 @@ export function login(email, password, navigate) {
         email,
         password,
       });
-      console.log("LOGIN_API RESPONSE...............", response);
+      // console.log("LOGIN_API RESPONSE...............", response);
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
@@ -118,7 +118,7 @@ export function getPasswordToken(email, setEmailSent) {
       const response = await apiConnector("POST", RESETPASSWORDTOKEN_API, {
         email,
       });
-      console.log("RESETPASSWORDTOKEN_API RESPONSE...............", response);
+      // console.log("RESETPASSWORDTOKEN_API RESPONSE...............", response);
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
@@ -143,7 +143,7 @@ export function resetPassword(password, confirmPassword, token) {
         confirmPassword,
         token,
       });
-      console.log("RESETPASSWORD_API RESPONSE...............", response);
+      // console.log("RESETPASSWORD_API RESPONSE...............", response);
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
@@ -163,7 +163,7 @@ export async function changePassword(token, formData) {
     const response = await apiConnector("POST", CHANGEPASSWORD_API, formData, {
       Authorization: `Bearer ${token}`,
     });
-    console.log("CHANGEPASSWORD_API RESPONSE...............", response);
+    // console.log("CHANGEPASSWORD_API RESPONSE...............", response);
     if (!response.data.success) {
       throw new Error(response.data.message);
     }

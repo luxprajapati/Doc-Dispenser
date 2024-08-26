@@ -41,7 +41,7 @@ exports.sendOtp = async (req, res) => {
     }
     const otpPayload = { email, otp };
     const otpBody = await OtpModel.create(otpPayload);
-    console.log("OtpBody: -[Auth]", otpBody);
+    // console.log("OtpBody: -[Auth]", otpBody);
 
     res.status(200).json({
       success: true,
@@ -131,7 +131,7 @@ exports.signup = async (req, res) => {
       // userAllFiles: userAllFiles._id,
     });
 
-    console.log("User Signed up successfully [Auth]:- ", newUser);
+    // console.log("User Signed up successfully [Auth]:- ", newUser);
 
     return res.status(200).json({
       success: true,

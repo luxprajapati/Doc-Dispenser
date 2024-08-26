@@ -1,23 +1,24 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+import { toast } from "react-hot-toast";
+
 import {
   createDocument,
   editDocumentDetails,
   getDocumentDetails,
 } from "../services/operations/docAPI";
+
 import { setDocument, setEditDocument } from "../redux/slices/docSlice";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
-// import Upload from "../components/common/Upload";
 
 const CreateDocument = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    getValue,
+    // setValue,
+    getValues,
     formState: { errors },
   } = useForm();
 
@@ -28,8 +29,8 @@ const CreateDocument = () => {
   const { documentId } = useParams();
 
   const isFormUpdated = () => {
-    const currentValues = getValue();
-    console.log("CurrentValue for edit document: - ", currentValues);
+    const currentValues = getValues();
+
     if (
       currentValues.documentName !== document.documentName ||
       currentValues.doc !== document.doc
@@ -40,11 +41,9 @@ const CreateDocument = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     if (editDocument) {
       if (isFormUpdated()) {
-        const currentValues = getValue();
+        const currentValues = getValues();
         const formData = new FormData();
         formData.append("documentId", document._id);
         if (currentValues.documentName !== document.documentName) {
@@ -53,10 +52,10 @@ const CreateDocument = () => {
         if (currentValues.doc !== document.doc) {
           formData.append("doc", currentValues.doc[0]);
         }
-
         const result = await editDocumentDetails(formData, token);
         if (result) {
           dispatch(setDocument(result));
+          dispatch(setEditDocument(false));
         } else {
           toast.error("No changes done to the document");
         }
@@ -64,29 +63,37 @@ const CreateDocument = () => {
       }
     }
 
-    const formData = new FormData();
-    formData.append("documentName", data.documentName);
-    formData.append("doc", data.doc[0]);
-
-    const result = await createDocument(formData, token);
-    if (result) {
-      dispatch(setDocument(result));
+    if (!editDocument) {
+      const formData = new FormData();
+      formData.append("documentName", data.documentName);
+      formData.append("doc", data.doc[0]);
+      const result = await createDocument(formData, token);
+      if (result) {
+        dispatch(setDocument(result));
+      }
+      navigate("/dashboard");
     }
-    navigate("/dashboard");
   };
 
   useEffect(() => {
-    (async () => {
-      console.log("DocumentId CreateDocument.jsx:- ", documentId);
-      const result = await getDocumentDetails(documentId, token);
-      console.log("Document Details:- ", result);
-      if (result) {
-        // dispatch(setEditDocument(true));
-        dispatch(setDocument(result));
-      }
-    })();
+    if (documentId && editDocument === true) {
+      (async () => {
+        const result = await getDocumentDetails(documentId, token);
+        if (result) {
+          dispatch(setDocument(result));
+        }
+      })();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleCancel = () => {
+    if (editDocument) {
+      dispatch(setEditDocument(false));
+      navigate("/dashboard");
+    }
+    navigate("/dashboard");
+  };
 
   return (
     <div className="flex flex-col w-11/12 md:w-10/12 mx-auto">
@@ -135,10 +142,16 @@ const CreateDocument = () => {
           </div>
 
           {/* Add document butn */}
-          <div className="flex flex-row justify-end w-full">
+          <div className="flex flex-row justify-between gap-x-5  w-full">
+            <button
+              onClick={() => handleCancel()}
+              className="bg-slate-300 hover:bg-slate-400  transition-all duration-200 text-zinc-900 p-2 font-semibold font-poppins rounded-md w-1/2 text-sm mt-5"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
-              className="bg-slate-300 hover:bg-slate-400  transition-all duration-200 text-zinc-900 p-2 font-semibold font-poppins rounded-md w-full text-sm mt-5"
+              className="bg-slate-300 hover:bg-slate-400  transition-all duration-200 text-zinc-900 p-2 font-semibold font-poppins rounded-md w-1/2 text-sm mt-5"
             >
               Add Document
             </button>

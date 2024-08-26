@@ -18,7 +18,7 @@ exports.createDocument = async (req, res) => {
     }
 
     const userId = req.user.id;
-    console.log("User ID [Document]:- ", userId);
+    // console.log("User ID [Document]:- ", userId);
 
     const doc = await uploadFileToCloudinary(file, process.env.FOLDER_NAME);
 
@@ -69,7 +69,7 @@ exports.getAllDocuments = async (req, res) => {
       .populate()
       .exec();
 
-    console.log("get all documents [Document]:- ", documents);
+    // console.log("get all documents [Document]:- ", documents);
     return res.status(200).json({
       success: true,
       message: "All documents fetched successfully [Document]",
@@ -138,7 +138,7 @@ exports.editDocument = async (req, res) => {
 exports.deleteDocument = async (req, res) => {
   try {
     const { documentId } = req.body;
-    console.log("Document ID [Document]:- ", documentId);
+    // console.log("Document ID [Document]:- ", documentId);
     const document = await DocumentModel.findById(documentId);
 
     if (!document) {
@@ -151,12 +151,12 @@ exports.deleteDocument = async (req, res) => {
 
     await DocumentModel.findByIdAndDelete(documentId);
 
-    // Add logging to check if req.user is defined
-    if (!req.user) {
-      console.error("req.user is undefined");
-    } else {
-      console.log("userId [document]:", req.user.id);
-    }
+    // // Add logging to check if req.user is defined
+    // if (!req.user) {
+    //   console.error("req.user is undefined");
+    // } else {
+    //   console.log("userId [document]:", req.user.id);
+    // }
 
     await UserModel.findByIdAndUpdate(
       {
@@ -195,9 +195,9 @@ exports.getDocumentDetails = async (req, res) => {
   try {
     const { documentId } = req.body;
     // const user = req.user.id;
-    const documentDetails = await DocumentModel.findOne({ _id: documentId })
-      .populate()
-      .exec();
+    const documentDetails = await DocumentModel.findOne({ _id: documentId });
+    // .populate("documentOwner")
+    // .exec();
 
     if (!documentDetails) {
       return res.status(404).json({
@@ -205,6 +205,12 @@ exports.getDocumentDetails = async (req, res) => {
         message: "Document not found",
       });
     }
+
+    return res.status(200).json({
+      success: true,
+      message: "Document details fetched successfully [Document]",
+      data: documentDetails,
+    });
   } catch (error) {
     console.log(
       "Error while getting the document details [Document]:- ",

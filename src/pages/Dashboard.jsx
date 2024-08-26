@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { apiConnector } from "../services/apiConnector";
+
 import toast from "react-hot-toast";
+import { apiConnector } from "../services/apiConnector";
 import { documentEndpoints } from "../services/apis";
+import { setEditDocument } from "../redux/slices/docSlice";
+
 import ConfirmModal from "../components/common/ConfirmModal";
-import { useDispatch, useSelector } from "react-redux";
-import { getDocumentDetails } from "../services/operations/docAPI";
-import { setDocument, setEditDocument } from "../redux/slices/docSlice";
 
 const Dashboard = () => {
   const [docList, setDocList] = useState([]);
@@ -17,12 +19,11 @@ const Dashboard = () => {
   const [docId, setDocId] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
-  // const { token } = useSelector((state) => state.auth);
-  // const { documentId } = useParams();
   const dispatch = useDispatch();
 
   const getAllDocs = async () => {
-    const toastId = toast.loading("Loading...");
+    const toastId = toast.loading("Loading Documents...");
+
     let documentList = [];
     try {
       const response = await apiConnector(
@@ -32,7 +33,6 @@ const Dashboard = () => {
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
-
       documentList = response.data.data;
       setDocList(documentList);
     } catch (error) {
@@ -47,20 +47,12 @@ const Dashboard = () => {
     getAllDocs();
   }, []);
 
+  // Event listener for window resize
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // const handleEdit = async () => {
-  //   const result = await getDocumentDetails(documentId, token);
-  //   console.log("Document Details:- ", result);
-  //   if (result) {
-  //     // dispatch(setEditDocument(true));
-  //     dispatch(setDocument(result));
-  //   }
-  // };
 
   return (
     <div className=" flex flex-col justify-center items-start gap-y-10  w-11/12 md:w-10/12 mx-auto my-9 ">
@@ -69,7 +61,7 @@ const Dashboard = () => {
         <NavLink to="/create-document">
           <div className="flex flow-row gap-x-1 justify-start items-center border border-slate-300 text-slate-300 px-5 py-2 rounded-md cursor-pointer hover:scale-95 transition-all duration-300 shadow-[rgba(135,_135,_44,_0.4)_0px_0px_0px_2px,_rgba(136,_124,_144,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
             <HiOutlineDocumentPlus className="text-2xl font-bold " />
-            <p className="text-xl font-poppins font-bold">New Document</p>
+            <p className="text-xl font-poppins font-bold">Add Document</p>
           </div>
         </NavLink>
       </div>
@@ -93,7 +85,6 @@ const Dashboard = () => {
                   onClick={() => {
                     dispatch(setEditDocument(true));
                     navigate(`/edit-document/${doc._id}`);
-                    // handleEdit();
                   }}
                   className="text-yellow-400 p-2 rounded-lg bg-yellow-700 
                 hover:bg-transparent hover:border border border-yellow-700 hover:border-yellow-700 transition-all duration-300 sm:w-auto sm:h-auto w-[40px] h-[40px]
@@ -115,6 +106,12 @@ const Dashboard = () => {
               </div>
             </div>
           ))}
+
+          {docList.length === 0 && (
+            <div className="flex flex-row  justify-center items-center capitalize text-center text-slate-300 font-poppins font-semibold text-2xl">
+              No document Found. You need to Add Document First.
+            </div>
+          )}
         </div>
       </div>
 

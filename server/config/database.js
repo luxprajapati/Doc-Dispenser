@@ -4,9 +4,9 @@ require("dotenv").config();
 exports.connectDB = () => {
   mongoose
     .connect(process.env.MONGODB_URL, {})
-    .then(() => console.log("Doc-Dispenser Server is Connected"))
+    .then(() => console.log("Server is Connected"))
     .catch((error) => {
-      console.log("-------Doc-Dispenser SERVER FAILED-------");
+      console.log("-------SERVER FAILED-------");
       console.error(error);
       process.exit(1);
     });

@@ -76,7 +76,7 @@ function App() {
         />
 
         <Route
-          path="/edit-document/:id"
+          path="/edit-document/:documentId"
           element={
             <PrivateRoute>
               <CreateDocument />

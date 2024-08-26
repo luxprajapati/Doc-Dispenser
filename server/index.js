@@ -39,7 +39,7 @@ app.use("/api/v1/auth", userRoute);
 app.use("/api/v1/document", documentRoute);
 
 const server = app.listen(PORT, () => {
-  console.log(`Doc-Dispenser Server is running on PORT:- ${PORT}`);
+  console.log(`Server is running on Port ${PORT}`);
 });
 
 server.on("error", (err) => {
