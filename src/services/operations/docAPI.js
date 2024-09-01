@@ -32,6 +32,8 @@ export const deleteDocument = async (data, token) => {
   toast.dismiss(toastId);
 };
 
+// export const getAllUserDocuments = async(token);
+
 export const createDocument = async (data, token) => {
   let result = null;
   const toastId = toast.loading("Creating Document...");

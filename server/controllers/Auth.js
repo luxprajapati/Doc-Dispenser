@@ -173,10 +173,11 @@ exports.login = async (req, res) => {
       };
       // Create a token for the user
       const token = JWT.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: "1d",
+        expiresIn: "2d",
       });
       userExist.token = token;
       userExist.password = undefined;
+      console.log("User logged in successfully [Auth]:- ", userExist);
       res
         .cookie("userInfo", token, {
           expires: new Date(Date.now() + 72 * 3600000),

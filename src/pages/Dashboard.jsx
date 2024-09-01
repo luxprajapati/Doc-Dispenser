@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
 import { GrEdit } from "react-icons/gr";
@@ -14,6 +14,8 @@ import { setEditDocument } from "../redux/slices/docSlice";
 import ConfirmModal from "../components/common/ConfirmModal";
 
 const Dashboard = () => {
+  const { token } = useSelector((state) => state.auth);
+
   const [docList, setDocList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [docId, setDocId] = useState("");
@@ -21,30 +23,62 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const getAllDocs = async () => {
-    const toastId = toast.loading("Loading Documents...");
+  // const getAllDocs = async () => {
+  //   const toastId = toast.loading("Loading Documents...");
 
+  //   let documentList = [];
+  //   try {
+  //     const response = await apiConnector(
+  //       "GET",
+  //       documentEndpoints.GETALLDOCS_API
+  //     );
+  //     if (!response.data.success) {
+  //       throw new Error(response.data.message);
+  //     }
+  //     documentList = response.data.data;
+
+  //     // const userDocumentList = documentList.filter();
+
+  //     setDocList(documentList);
+  //   } catch (error) {
+  //     console.log("GETALLDOCS_API ERROR..................", error);
+  //     toast.error("Failed to get all documents");
+  //   } finally {
+  //     toast.dismiss(toastId);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getAllDocs();
+  // }, []);
+
+  const getUserAllDocs = async () => {
+    const toastId = toast.loading("Loading your documents...");
     let documentList = [];
-    try {
-      const response = await apiConnector(
-        "GET",
-        documentEndpoints.GETALLDOCS_API
-      );
-      if (!response.data.success) {
-        throw new Error(response.data.message);
+    const userDocResponse = await apiConnector(
+      "GET",
+      documentEndpoints.GETUSERDOCUMENTS_API,
+      null,
+      {
+        Authorization: `Bearer ${token}`,
       }
-      documentList = response.data.data;
-      setDocList(documentList);
+    );
+    if (!userDocResponse.data.success) {
+      throw new Error(userDocResponse.data.message);
+    }
+    documentList = userDocResponse.data.data;
+    setDocList(documentList);
+    try {
     } catch (error) {
-      console.log("GETALLDOCS_API ERROR..................", error);
+      console.log("GETUSERDOCUMENTS_API ERROR..................", error);
       toast.error("Failed to get all documents");
     } finally {
       toast.dismiss(toastId);
     }
   };
-
   useEffect(() => {
-    getAllDocs();
+    getUserAllDocs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Event listener for window resize
@@ -54,6 +88,63 @@ const Dashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    // Disable right-click
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener("contextmenu", handleContextMenu);
+
+    // Disable common screenshot keyboard shortcuts
+    const handleKeyDown = (e) => {
+      if (
+        e.key === "PrintScreen" ||
+        (e.ctrlKey && e.key === "p") ||
+        (e.ctrlKey && e.key === "s") ||
+        (e.ctrlKey && e.key === "Shift" && e.key === "s")
+      ) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+  const openDocument = (url) => {
+    const newWindow = window.open(url, "_blank");
+    if (newWindow) {
+      newWindow.document.write(`
+        <html>
+          <head>
+            <style>
+              body {
+                margin: 0;
+                overflow: hidden;
+              }
+              .watermark {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 5rem;
+                color: rgba(255, 255, 255, 0.5);
+                pointer-events: none;
+                user-select: none;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="watermark">Confidential</div>
+            <iframe src="${url}" frameborder="0" style="width: 100vw; height: 100vh;"></iframe>
+          </body>
+        </html>
+      `);
+      newWindow.document.close();
+    }
+  };
+
+  console.log("docList->", docList);
   return (
     <div className=" flex flex-col justify-center items-start gap-y-10  w-11/12 md:w-10/12 mx-auto my-9 ">
       {/* Create documents */}
@@ -73,7 +164,10 @@ const Dashboard = () => {
               className="flex flex-row justify-between border-l-0 border-r-0 border-t border-slate-400 border-opacity-50 rounded-md p-4 text-slate-300"
               key={doc._id}
             >
-              <div className=" md:w-[75%] w-[60%] cursor-pointer font-poppins">
+              <div
+                className=" md:w-[75%] w-[60%] cursor-pointer font-poppins"
+                onClick={() => openDocument(doc.file)}
+              >
                 {windowWidth <= 375
                   ? doc.documentName.length > 15
                     ? `${doc.documentName.slice(0, 12)}...`
@@ -120,8 +214,10 @@ const Dashboard = () => {
         <ConfirmModal
           onClose={() => setIsModalOpen(false)}
           setIsModalOpen={setIsModalOpen}
-          getAllDocs={getAllDocs}
+          getAllDocs={getUserAllDocs}
+          // getAllDocs={getAllDocs}
           docId={docId}
+          BB
         />
       )}
     </div>

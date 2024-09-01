@@ -224,3 +224,43 @@ exports.getDocumentDetails = async (req, res) => {
     });
   }
 };
+
+// Function to get all document of a user
+exports.getAllDocumentsOfUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    // console.log("User ID [Document]:- ", userId);
+    if (!userId) {
+      return res.status(404).json({
+        success: false,
+        message: "User ID not found",
+      });
+    }
+    const user = await UserModel.findById(userId)
+      .populate("userAllFiles")
+      .exec();
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "All documents fetched successfully [Document]",
+      data: user.userAllFiles,
+    });
+  } catch (error) {
+    console.log(
+      "Error while getting all the documents of a user [Document]:- ",
+      error
+    );
+    return res.status(500).json({
+      success: false,
+      message:
+        "Internal server error while getting all the documents of a user [Document]",
+      error: error.message,
+    });
+  }
+};
