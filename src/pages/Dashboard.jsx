@@ -111,38 +111,6 @@ const Dashboard = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-  const openDocument = (url) => {
-    const newWindow = window.open(url, "_blank");
-    if (newWindow) {
-      newWindow.document.write(`
-        <html>
-          <head>
-            <style>
-              body {
-                margin: 0;
-                overflow: hidden;
-              }
-              .watermark {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 5rem;
-                color: rgba(255, 255, 255, 0.5);
-                pointer-events: none;
-                user-select: none;
-              }
-            </style>
-          </head>
-          <body>
-            <div class="watermark">Confidential</div>
-            <iframe src="${url}" frameborder="0" style="width: 100vw; height: 100vh;"></iframe>
-          </body>
-        </html>
-      `);
-      newWindow.document.close();
-    }
-  };
 
   console.log("docList->", docList);
   return (
@@ -166,7 +134,9 @@ const Dashboard = () => {
             >
               <div
                 className=" md:w-[75%] w-[60%] cursor-pointer font-poppins"
-                onClick={() => openDocument(doc.file)}
+                onClick={() => {
+                  window.open(doc.file);
+                }}
               >
                 {windowWidth <= 375
                   ? doc.documentName.length > 15

@@ -5,10 +5,6 @@ exports.uploadFileToCloudinary = async (file, folder) => {
   try {
     const options = { folder: folder };
     options.resource_type = "auto";
-    // const options = {
-    //   folder: folder,
-    //   resource_type: "raw", // Ensure resource_type is set to auto
-    // };
     return await cloudinary.uploader.upload(file.tempFilePath, options);
   } catch (err) {
     console.log(
