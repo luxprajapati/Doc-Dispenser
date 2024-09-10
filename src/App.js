@@ -10,6 +10,7 @@ import OpenRoute from "./components/core/Auth/OpenRoute";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import CreateDocument from "./pages/CreateDocument";
+import ShareDocument from "./pages/ShareDocument";
 
 function App() {
   const location = useLocation();
@@ -80,6 +81,15 @@ function App() {
           element={
             <PrivateRoute>
               <CreateDocument />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/share-document"
+          element={
+            <PrivateRoute>
+              <ShareDocument />
             </PrivateRoute>
           }
         />

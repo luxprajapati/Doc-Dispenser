@@ -76,7 +76,7 @@ const Navbar = () => {
               Logout
             </button>
           )} */}
-          {token !== null && windowWidth >= 640 && <ProfileDropdown />}
+          {token && windowWidth >= 640 && <ProfileDropdown />}
 
           {
             // token != null &&

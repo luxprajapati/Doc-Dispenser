@@ -7,6 +7,7 @@ import { logout } from "../../services/operations/authAPI";
 import { VscDashboard, VscSignOut } from "react-icons/vsc";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
+import { FaRegShareFromSquare } from "react-icons/fa6";
 
 // hooks
 import useOnClickOutside from "../../hooks/useOnClickOutside";
@@ -43,6 +44,16 @@ export default function ProfileDropdown() {
               Dashboard
             </div>
           </Link>
+          <div
+            onClick={() => {
+              navigate("/share-document");
+              setOpen(false);
+            }}
+            className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
+          >
+            <FaRegShareFromSquare className="text-lg" />
+            Share Documents
+          </div>
 
           <div
             onClick={() => {

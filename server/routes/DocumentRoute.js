@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import the required middlewares
-const { auth } = require("../middlewares/auth");
+const { auth, validateToken } = require("../middlewares/auth");
 
 // Import the required controllers
 const {
@@ -12,6 +12,8 @@ const {
   deleteDocument,
   getDocumentDetails,
   getAllDocumentsOfUser,
+  shareFormLink,
+  getDocumentsForForm,
 } = require("../controllers/Document");
 
 const {
@@ -31,6 +33,12 @@ router.post("/edit-document", auth, editDocument);
 router.delete("/delete-document", auth, deleteDocument);
 router.post("/get-document-details", auth, getDocumentDetails);
 router.get("/get-all-documents-of-user", auth, getAllDocumentsOfUser);
+router.get("/share-form-link", auth, shareFormLink);
+router.get(
+  "/get-documents-for-form/:token",
+  validateToken,
+  getDocumentsForForm
+);
 
 // ***************************************************
 // Request routes

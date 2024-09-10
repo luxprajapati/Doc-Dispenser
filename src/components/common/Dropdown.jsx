@@ -6,6 +6,7 @@ import { logout } from "../../services/operations/authAPI";
 // icons
 import { VscDashboard, VscSignOut } from "react-icons/vsc";
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
+import { FaRegShareFromSquare } from "react-icons/fa6";
 // import { MdOutlineManageAccounts } from "react-icons/md";
 
 // hooks
@@ -48,6 +49,16 @@ export default function Dropdown({ setOpen, open }) {
                   Dashboard
                 </div>
               </Link>
+              <div
+                onClick={() => {
+                  navigate("/share-document");
+                  setOpen(false);
+                }}
+                className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
+              >
+                <FaRegShareFromSquare className="text-lg" />
+                Share Documents
+              </div>
               <div
                 onClick={() => {
                   navigate("/create-document");

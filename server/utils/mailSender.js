@@ -12,11 +12,13 @@ exports.mailSender = async (email, subject, body) => {
     });
 
     let info = await transporter.sendMail({
-      from: "docDispenser",
+      // from: `docDispenser`,
+      from: `"Docdispenser" <${process.env.MAIL_USER}>`,
       to: `${email}`,
       subject: `${subject}`,
       html: `${body}`,
     });
+
     console.log("Mail info:- ", info);
     return info;
   } catch (err) {

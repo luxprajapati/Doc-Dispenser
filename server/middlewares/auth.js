@@ -1,3 +1,4 @@
+const TokenModel = require("../models/TokenSchema");
 const JWT = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -35,6 +36,45 @@ exports.auth = async (req, res, next) => {
     return res.status(500).json({
       success: false,
       message: "Error while validating the Token[auth.js]",
+    });
+  }
+};
+
+exports.validateToken = async (req, res, next) => {
+  try {
+    const token = req.params.token;
+    console.log("Token line 46 [auth.js]:- ", token);
+
+    if (!token) {
+      return res.status(404).json({
+        success: false,
+        message: "Token is required, and it is not found",
+      });
+    }
+
+    const tokenData = await TokenModel.findOne({ token: token });
+
+    if (!tokenData) {
+      return res.status(404).json({
+        success: false,
+        message: "Token data not found",
+      });
+    }
+
+    if (tokenData.expiry < new Date()) {
+      return res.status(401).json({
+        success: false,
+        message: "Token is expired",
+      });
+    }
+    req.userid = tokenData.userId;
+    next();
+  } catch (error) {
+    console.log("Error whiile validateToken [auth.js]->", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error while validating the Token[auth.js]",
+      error: error,
     });
   }
 };

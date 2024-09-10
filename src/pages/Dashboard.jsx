@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { FaRegShareFromSquare } from "react-icons/fa6";
 
 import toast from "react-hot-toast";
 import { apiConnector } from "../services/apiConnector";
@@ -116,11 +117,23 @@ const Dashboard = () => {
   return (
     <div className=" flex flex-col justify-center items-start gap-y-10  w-11/12 md:w-10/12 mx-auto my-9 ">
       {/* Create documents */}
-      <div onClick={() => navigate("/create-document")}>
+      <div
+        className="flex flow-row justify-between w-full"
+        // onClick={() => navigate("/create-document")}
+      >
         <NavLink to="/create-document">
           <div className="flex flow-row gap-x-1 justify-start items-center border border-slate-300 text-slate-300 px-5 py-2 rounded-md cursor-pointer hover:scale-95 transition-all duration-300 shadow-[rgba(135,_135,_44,_0.4)_0px_0px_0px_2px,_rgba(136,_124,_144,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
             <HiOutlineDocumentPlus className="text-2xl font-bold " />
             <p className="text-xl font-poppins font-bold">Add Document</p>
+          </div>
+        </NavLink>
+        <NavLink
+          to="/share-document"
+          onClick={() => navigate("/share-document")}
+        >
+          <div className="flex flow-row gap-x-1 justify-start items-center border border-slate-300  hover:text-yellow-400 hover:border-yellow-400 text-slate-300 px-5 py-2 rounded-md cursor-pointer hover:scale-95 transition-all duration-300 shadow-[rgba(135,_135,_44,_0.4)_0px_0px_0px_2px,_rgba(136,_124,_144,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+            <FaRegShareFromSquare className="text-2xl font-bold  " />
+            {/* <p className="text-xl font-poppins font-bold">Add Document</p> */}
           </div>
         </NavLink>
       </div>
