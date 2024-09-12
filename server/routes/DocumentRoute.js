@@ -33,9 +33,9 @@ router.post("/edit-document", auth, editDocument);
 router.delete("/delete-document", auth, deleteDocument);
 router.post("/get-document-details", auth, getDocumentDetails);
 router.get("/get-all-documents-of-user", auth, getAllDocumentsOfUser);
-router.get("/share-form-link", auth, shareFormLink);
+router.post("/share-form-link", auth, shareFormLink);
 router.get(
-  "/get-documents-for-form/:token",
+  "",
   validateToken,
   getDocumentsForForm
 );

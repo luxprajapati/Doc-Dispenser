@@ -19,6 +19,9 @@ export const documentEndpoints = {
   DELETEDOC_API: BASE_URL + "/document/delete-document",
   GETDOCDETAILS_API: BASE_URL + "/document/get-document-details",
   GETUSERDOCUMENTS_API: BASE_URL + "/document/get-all-documents-of-user",
+  SHARE_FORM_LINK_API: BASE_URL + "/document/share-form-link",
+  GET_DOCUMENT_FOR_FORM_API:
+    BASE_URL + "/document/get-documents-for-form/:token",
 
   REQUESTDOC_API: BASE_URL + "/document/request-documents",
   APPROVEREQUEST_API: BASE_URL + "/document/approve-request",

@@ -1,16 +1,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { shareFormLink } from "../services/operations/docAPI";
 
 const ShareDocument = () => {
+  const { token } = useSelector((state) => state.auth);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(`Sending invite to: ${data.email}`);
-    // Handle form submission logic here
+    // console.log(`Sending invite to: ${data.email}`);
+    shareFormLink(data, token);
+    reset();
   };
 
   return (

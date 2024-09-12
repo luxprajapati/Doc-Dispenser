@@ -303,7 +303,7 @@ exports.shareFormLink = async (req, res) => {
       username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
     console.log("Username [Document]->", capitalizedUsername);
 
-    const tokenizedLink = `${formLink}?token=${token}`;
+    const tokenizedLink = `${formLink}/${token}`;
     console.log("Tokenized Link [Document]->", tokenizedLink);
     const shareFormLinkMailRes = await mailSender(
       email,

@@ -12,6 +12,7 @@ const {
   // REJECTREQUEST_API,
   // VIEWDOC_API,
   GETDOCDETAILS_API,
+  SHARE_FORM_LINK_API,
 } = documentEndpoints;
 
 export const deleteDocument = async (data, token) => {
@@ -101,4 +102,23 @@ export const getDocumentDetails = async (documentId, token) => {
   }
   toast.dismiss(toastId);
   return result;
+};
+
+export const shareFormLink = async (data, token) => {
+  const toastId = toast.loading("Sharing Form Link...");
+  try {
+    const response = await apiConnector("POST", SHARE_FORM_LINK_API, data, {
+      Authorization: `Bearer ${token}`,
+    });
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+
+    toast.success("Form link shared successfully");
+  } catch (error) {
+    console.log("SHARE FORM LINK ERROR..................", error);
+    toast.error("Failed to share form link");
+  }
+  toast.dismiss(toastId);
 };
