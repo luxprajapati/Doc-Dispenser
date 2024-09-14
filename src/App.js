@@ -11,6 +11,7 @@ import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import CreateDocument from "./pages/CreateDocument";
 import ShareDocument from "./pages/ShareDocument";
+import DocRequestForm from "./pages/DocReqFormPage";
 
 function App() {
   const location = useLocation();
@@ -92,6 +93,11 @@ function App() {
               <ShareDocument />
             </PrivateRoute>
           }
+        />
+
+        <Route
+          path="document-request-form/:token"
+          element={<DocRequestForm />}
         />
       </Routes>
     </div>
