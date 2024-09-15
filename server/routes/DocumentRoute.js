@@ -35,7 +35,7 @@ router.post("/get-document-details", auth, getDocumentDetails);
 router.get("/get-all-documents-of-user", auth, getAllDocumentsOfUser);
 router.post("/share-form-link", auth, shareFormLink);
 router.get(
-  "",
+  "/get-documents-for-form/:token",
   validateToken,
   getDocumentsForForm
 );

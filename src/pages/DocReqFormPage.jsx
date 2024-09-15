@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
+import { apiConnector } from "../services/apiConnector";
+import { documentEndpoints } from "../services/apis";
 
 const DocReqFormPage = () => {
   const { token } = useParams();
@@ -12,25 +14,44 @@ const DocReqFormPage = () => {
     formState: { errors },
   } = useForm();
 
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
+  const [documentList, setDocumentList] = useState([]);
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const response = await apiConnector(
+          "GET",
+          documentEndpoints.GET_DOCUMENT_FOR_FORM_API.replace(":token", token)
+        );
+
+        if (!response.data.success) {
+          throw new Error(response.data.message);
+        }
+        console.log("Document List:- ", response.data.data);
+        setDocumentList(response.data.data);
+      } catch (error) {
+        console.log("Error while fetching documents", error);
+      }
+    };
+    fetchDocuments();
+  }, [token]);
+
+  const handleDocumentSelection = (e) => {
+    const { value, checked } = e.target;
+    setSelectedDocuments((prev) => {
+      if (checked) {
+        return [...prev, value];
+      } else {
+        return prev.filter((doc) => doc !== value);
+      }
+    });
+  };
+  // console.log("Selected documents->", selectedDocuments);
+
   const onSubmit = (data) => {
     console.log(data);
   };
-
-  // Dummy document list for the checkboxes
-  const documentList = [
-    "Document 1",
-    "Document 2",
-    "Document 3",
-    "Document 4",
-    "Document 5",
-    "Document 6",
-    "Document 7",
-    "Document 8",
-    "Document 9",
-    "Document 10",
-    "Document 11",
-    "Document 12",
-  ];
 
   return (
     <div className="flex justify-center items-center my-16 bg-zinc-900">
@@ -79,6 +100,11 @@ const DocReqFormPage = () => {
               Select Documents <span className="text-red-500">*</span>
             </label>
             <div className="space-y-2 h-[130px] overflow-y-scroll border border-slate-500 rounded pl-4 pt-1 custom-scrollbarrr">
+              {documentList.length === 0 && (
+                <span className="text-red-500">
+                  Time limit exceed. Request the owner for new form.
+                </span>
+              )}
               {documentList.map((doc, index) => (
                 <div key={index} className="flex items-center">
                   <input
@@ -86,10 +112,11 @@ const DocReqFormPage = () => {
                     id={`doc-${index}`}
                     {...register("documents")}
                     value={doc}
+                    onChange={handleDocumentSelection}
                     className="mr-2 text-green-500 border-slate-500 bg-zinc-800 focus:ring-green-500"
                   />
                   <label htmlFor={`doc-${index}`} className="text-slate-300">
-                    {doc}
+                    {doc.documentName}
                   </label>
                 </div>
               ))}
@@ -98,7 +125,8 @@ const DocReqFormPage = () => {
 
           <button
             type="submit"
-            className="w-full p-3 mt-4 text-green-500 border border-green-500 hover:bg-green-500 hover:text-white rounded focus:outline-none"
+            className="w-full p-3 mt-4 text-green-500 border border-green-500 hover:bg-green-500 hover:text-white rounded focus:outline-none  disabled:opacity-40"
+            disabled={documentList.length === 0}
           >
             Submit
           </button>

@@ -122,3 +122,36 @@ export const shareFormLink = async (data, token) => {
   }
   toast.dismiss(toastId);
 };
+
+// export const getDocumentForForm = async (data, token) => {
+//   const toastId = toast.loading("Fetching Documents...");
+//   try {
+//     const response = await apiConnector(
+//       "GET",
+//       GET_DOCUMENT_FOR_FORM_API,
+//       data,
+//       {
+//         Authorization: `Bearer ${token}`,
+//       }
+//     );
+//     if (!response.data.success) {
+//       throw new Error(response.data.message);
+//     }
+//     toast.success("Documents fetched successfully");
+//     return response.data.data;
+//   } catch (error) {
+//     console.log("GET DOCUMENT FOR FORM ERROR..................", error);
+//     toast.error("Failed to fetch documents");
+//   }
+//   toast.dismiss(toastId);
+// };
+
+export const sendMailtoOwner = async (token) => {
+  const toastId = toast.loading("Sending Request to the owner...");
+  try {
+  } catch (error) {
+    console.log("SEND MAIL TO OWNER ERROR..................", error);
+    toast.error("Failed to send request to the owner");
+  }
+  toast.dismiss(toastId);
+};

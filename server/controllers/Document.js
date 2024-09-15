@@ -297,7 +297,7 @@ exports.shareFormLink = async (req, res) => {
     await TokenModel.create({
       userId: userId,
       token: token,
-      expiry: Date.now() + 2 * 60 * 1000,
+      expiry: Date.now() + 2000 * 60 * 1000,
     });
 
     const username = email.split("@")[0];
@@ -357,6 +357,35 @@ exports.getDocumentsForForm = async (req, res) => {
       success: false,
       message:
         "Internal server error while getting the documents for form [Document]",
+      error: error.message,
+    });
+  }
+};
+
+exports.sendMailToOwner = async (req, res) => {
+  try {
+    const { token } = req.params.token;
+    if (!token) {
+      return res.status(404).json({
+        success: false,
+        message: "Token is required",
+      });
+    }
+
+    const { userId } = token;
+
+    const documentOwner = await UserModel.findById(userId);
+    if (!documentOwner) {
+      return res.status(404).json({
+        success: false,
+        message: "Document Owner not found",
+      });
+    }
+  } catch (error) {
+    console.log("Error while sending mail to owner [Document]:- ", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while sending mail to owner [Document]",
       error: error.message,
     });
   }
