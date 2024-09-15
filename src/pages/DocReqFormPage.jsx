@@ -78,7 +78,7 @@ const DocReqFormPage = () => {
             <label className="block text-slate-300 text-lg mb-2 ">
               Select Documents <span className="text-red-500">*</span>
             </label>
-            <div className="space-y-2 h-[130px] overflow-y-scroll border border-slate-500 rounded pl-4 pt-1 custom-scrollbar">
+            <div className="space-y-2 h-[130px] overflow-y-scroll border border-slate-500 rounded pl-4 pt-1 custom-scrollbarrr">
               {documentList.map((doc, index) => (
                 <div key={index} className="flex items-center">
                   <input
