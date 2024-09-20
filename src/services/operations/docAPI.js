@@ -13,6 +13,7 @@ const {
   // VIEWDOC_API,
   GETDOCDETAILS_API,
   SHARE_FORM_LINK_API,
+  // SUBMIT_REQUEST_API,
 } = documentEndpoints;
 
 export const deleteDocument = async (data, token) => {
@@ -145,13 +146,3 @@ export const shareFormLink = async (data, token) => {
 //   }
 //   toast.dismiss(toastId);
 // };
-
-export const sendMailtoOwner = async (token) => {
-  const toastId = toast.loading("Sending Request to the owner...");
-  try {
-  } catch (error) {
-    console.log("SEND MAIL TO OWNER ERROR..................", error);
-    toast.error("Failed to send request to the owner");
-  }
-  toast.dismiss(toastId);
-};

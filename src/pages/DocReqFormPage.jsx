@@ -3,18 +3,21 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { apiConnector } from "../services/apiConnector";
 import { documentEndpoints } from "../services/apis";
+import toast from "react-hot-toast";
 
 const DocReqFormPage = () => {
   const { token } = useParams();
-  console.log("token->", token);
+  // console.log("token->", token);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const [selectedDocuments, setSelectedDocuments] = useState([]);
+  // const [selectedDocuments, setSelectedDocuments] = useState([]);
+
   const [documentList, setDocumentList] = useState([]);
 
   useEffect(() => {
@@ -28,7 +31,7 @@ const DocReqFormPage = () => {
         if (!response.data.success) {
           throw new Error(response.data.message);
         }
-        console.log("Document List:- ", response.data.data);
+        // console.log("Document List:- ", response.data.data);
         setDocumentList(response.data.data);
       } catch (error) {
         console.log("Error while fetching documents", error);
@@ -37,20 +40,46 @@ const DocReqFormPage = () => {
     fetchDocuments();
   }, [token]);
 
-  const handleDocumentSelection = (e) => {
-    const { value, checked } = e.target;
-    setSelectedDocuments((prev) => {
-      if (checked) {
-        return [...prev, value];
-      } else {
-        return prev.filter((doc) => doc !== value);
-      }
-    });
-  };
+  // const handleDocumentSelection = (e) => {
+  //   const { value, checked } = e.target;
+  //   const document = JSON.parse(value);
+  //   setSelectedDocuments((prev) => {
+  //     if (checked) {
+  //       return [...prev, document];
+  //     } else {
+  //       return prev.filter((doc) => doc !== document.id);
+  //     }
+  //   });
+  // };
   // console.log("Selected documents->", selectedDocuments);
 
+  const submitRequestInBackend = async (data) => {
+    const toastId = toast.loading("Submitting your request...");
+    try {
+      const response = await apiConnector(
+        "POST",
+        documentEndpoints.SUBMIT_REQUEST_API.replace(":token", token),
+        data
+      );
+
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+
+      toast.success("Successfully request send");
+      reset();
+    } catch (error) {
+      console.log(
+        "ERROR WHILE SUBMIT THE REQUEST FOR DOCUMENTS........",
+        error
+      );
+      toast.error("Failed to Submit request");
+    }
+    toast.dismiss(toastId);
+  };
   const onSubmit = (data) => {
     console.log(data);
+    submitRequestInBackend(data);
   };
 
   return (
@@ -111,8 +140,8 @@ const DocReqFormPage = () => {
                     type="checkbox"
                     id={`doc-${index}`}
                     {...register("documents")}
-                    value={doc}
-                    onChange={handleDocumentSelection}
+                    value={JSON.stringify(doc)}
+                    // onChange={handleDocumentSelection}
                     className="mr-2 text-green-500 border-slate-500 bg-zinc-800 focus:ring-green-500"
                   />
                   <label htmlFor={`doc-${index}`} className="text-slate-300">

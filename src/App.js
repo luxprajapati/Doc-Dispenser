@@ -12,6 +12,8 @@ import Dashboard from "./pages/Dashboard";
 import CreateDocument from "./pages/CreateDocument";
 import ShareDocument from "./pages/ShareDocument";
 import DocRequestForm from "./pages/DocReqFormPage";
+import ApproveRequest from "./pages/ApproveRequest";
+import RejectRequest from "./pages/RejectRequest";
 
 function App() {
   const location = useLocation();
@@ -99,6 +101,9 @@ function App() {
           path="document-request-form/:token"
           element={<DocRequestForm />}
         />
+
+        <Route path="approve-request" element={<ApproveRequest />} />
+        <Route path="reject-request" element={<RejectRequest />} />
       </Routes>
     </div>
   );

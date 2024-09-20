@@ -5,6 +5,9 @@ const { uploadFileToCloudinary } = require("../utils/fileUploader");
 const { mailSender } = require("../utils/mailSender");
 const { v4: uuidv4 } = require("uuid");
 const TokenModel = require("../models/TokenSchema");
+const requestedDocumentListTemplate = require("../mail/templates/documentListRequest");
+const approvedDocumentsListTemplate = require("../mail/templates/approvedDocList");
+const rejectRequestMailTemplate = require("../mail/templates/rejectReason");
 
 require("dotenv").config();
 
@@ -362,9 +365,59 @@ exports.getDocumentsForForm = async (req, res) => {
   }
 };
 
+exports.approveRequest = async (req, res) => {
+  const { documents, email } = req.query;
+  if (!documents || !email) {
+    return res.status(400).send("Missing documents or email parameter.");
+  }
+
+  const decodedDocuments = decodeURIComponent(documents);
+  const parsedDecodeDocuments = JSON.parse(decodedDocuments);
+  const doubleParsedDocuments = JSON.parse(parsedDecodeDocuments);
+
+  try {
+    const approveMailResponse = await mailSender(
+      email,
+      "Request Approved",
+      approvedDocumentsListTemplate({ documentList: doubleParsedDocuments })
+    );
+    return res.send("Request approved successfully.");
+  } catch (error) {
+    console.log("Error while approving the request", error);
+    res.status(500).send("Error approving request.");
+  }
+};
+
+exports.rejectRequest = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const rejectMailResponse = await mailSender(
+      email,
+      "Request Rejected via DocDispenser",
+      rejectRequestMailTemplate()
+    );
+    return res.send("Request rejected successfully.");
+  } catch (error) {
+    console.log("Error while rejecting the request", error);
+    res.status(500).send("Error rejecting request.");
+  }
+};
+
 exports.sendMailToOwner = async (req, res) => {
   try {
-    const { token } = req.params.token;
+    const { documents, name, email } = req.body;
+    const parsedDocuments = documents.map((doc) => JSON.parse(doc));
+    // console.log("parsedDocuments in bd->", parsedDocuments);
+    // console.log("Name-> in bd ", name);
+
+    const documentList = parsedDocuments.map((doc) => ({
+      id: doc.id,
+      name: doc.documentName,
+      link: doc.file,
+    }));
+
+    const { token } = req.params;
+    // console.log("Token [Document] 370:- ", token);
     if (!token) {
       return res.status(404).json({
         success: false,
@@ -372,7 +425,17 @@ exports.sendMailToOwner = async (req, res) => {
       });
     }
 
-    const { userId } = token;
+    const tokenDetails = await TokenModel.findOne({ token });
+    // console.log("Token Details [Document] 378:- ", tokenDetails);
+    if (!tokenDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "Token data not found",
+      });
+    }
+
+    const userId = tokenDetails.userId;
+    // console.log("User ID [Document] 380:- ", userId);
 
     const documentOwner = await UserModel.findById(userId);
     if (!documentOwner) {
@@ -381,6 +444,27 @@ exports.sendMailToOwner = async (req, res) => {
         message: "Document Owner not found",
       });
     }
+
+    const approveUrl = `http://localhost:3000/approve-request?documents=${encodeURIComponent(JSON.stringify(documentList))}&email=${encodeURIComponent(email)}`;
+    const rejectUrl = `http://localhost:3000/reject-request?email=${encodeURIComponent(email)}`;
+
+    const sendingMailToOwner = await mailSender(
+      documentOwner.email,
+      "Requested Document",
+      requestedDocumentListTemplate({
+        username: name,
+        documentList,
+        approveUrl,
+        rejectUrl,
+      })
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Mail send successfully [Document]",
+      data: sendingMailToOwner,
+      user: documentOwner,
+    });
   } catch (error) {
     console.log("Error while sending mail to owner [Document]:- ", error);
     return res.status(500).json({

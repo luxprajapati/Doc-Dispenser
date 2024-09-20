@@ -14,14 +14,17 @@ const {
   getAllDocumentsOfUser,
   shareFormLink,
   getDocumentsForForm,
-} = require("../controllers/Document");
-
-const {
-  requestDocuments,
+  sendMailToOwner,
   approveRequest,
   rejectRequest,
-  viewDocument,
-} = require("../controllers/RequestDocument");
+} = require("../controllers/Document");
+
+// const {
+//   requestDocuments,
+//   approveRequest,
+//   rejectRequest,
+//   viewDocument,
+// } = require("../controllers/RequestDocument");
 
 // ****************************************************
 // Document Routes
@@ -39,14 +42,17 @@ router.get(
   validateToken,
   getDocumentsForForm
 );
+router.post("/send-mail-to-owner/:token", sendMailToOwner);
+router.get("/approve-request", approveRequest);
+router.get("/reject-request", rejectRequest);
 
 // ***************************************************
 // Request routes
 // ***************************************************
 
-router.get("/request-documents", auth, requestDocuments);
-router.post("/approve-request", approveRequest);
-router.post("/reject-request", rejectRequest);
-router.get("/view-document/:id", viewDocument);
+// router.get("/request-documents", auth, requestDocuments);
+// router.post("/approve-request", approveRequest);
+// router.post("/reject-request", rejectRequest);
+// router.get("/view-document/:id", viewDocument);
 
 module.exports = router;

@@ -22,9 +22,11 @@ export const documentEndpoints = {
   SHARE_FORM_LINK_API: BASE_URL + "/document/share-form-link",
   GET_DOCUMENT_FOR_FORM_API:
     BASE_URL + "/document/get-documents-for-form/:token",
+  SUBMIT_REQUEST_API: BASE_URL + "/document/send-mail-to-owner/:token",
 
-  REQUESTDOC_API: BASE_URL + "/document/request-documents",
   APPROVEREQUEST_API: BASE_URL + "/document/approve-request",
   REJECTREQUEST_API: BASE_URL + "/document/reject-request",
+
+  REQUESTDOC_API: BASE_URL + "/document/request-documents",
   VIEWDOC_API: BASE_URL + "/document/view-document",
 };
