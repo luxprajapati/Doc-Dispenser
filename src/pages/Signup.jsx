@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { sentotp, signup } from "../services/operations/authAPI";
+import { sentotp } from "../services/operations/authAPI";
 import { setSignupData } from "../redux/slices/authSlice";
 
 const Signup = () => {

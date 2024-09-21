@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { matchPath, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { matchPath, NavLink, useLocation } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../services/operations/authAPI";
+import {  useSelector } from "react-redux";
+// import { logout } from "../../services/operations/authAPI";
 import ProfileDropdown from "./ProfileDropdown";
 import Dropdown from "./Dropdown";
 
@@ -10,8 +10,8 @@ const Navbar = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showDropdown, setShowDropdown] = useState(false);
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   // console.log("token", token);
   const location = useLocation();

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../services/operations/authAPI";
 
@@ -14,7 +14,7 @@ import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 export default function ProfileDropdown() {
   // const {  } = useSelector((state) => state.auth);
-  const { signupData } = useSelector((state) => state.auth);
+  // const { signupData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);

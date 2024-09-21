@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 import { apiConnector } from "../services/apiConnector";
 import { documentEndpoints } from "../services/apis";
-import { FaRegCircleCheck } from "react-icons/fa6";
+// import { FaRegCircleCheck } from "react-icons/fa6";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
