@@ -241,7 +241,7 @@ exports.changePassword = async (req, res) => {
         )
       );
 
-      // console.log("Email Response [Auth]:- ", emailResponse);
+      console.log("Email Response [Auth]:- ", emailResponse);
     } catch (err) {
       console.log(
         "Error while notify to the user about change password [Auth]:- ",

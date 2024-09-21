@@ -16,11 +16,11 @@ exports.auth = async (req, res, next) => {
         data: token,
       });
     }
-    // console.log("Token [auth.js]: -", token);
+    console.log("Token [auth.js]: -", token);
 
     try {
       const decoded = await JWT.verify(token, process.env.JWT_SECRET);
-      // console.log("Decoded Token [auth.js]:- ", decoded);
+      console.log("Decoded Token [auth.js]:- ", decoded);
       req.user = decoded;
     } catch (err) {
       console.log("Invalid Token [auth.js]:- ", err);
@@ -43,7 +43,7 @@ exports.auth = async (req, res, next) => {
 exports.validateToken = async (req, res, next) => {
   try {
     const token = req.params.token;
-    // console.log("Token line 46 [auth.js]:- ", token);
+    console.log("Token line 46 [auth.js]:- ", token);
 
     if (!token) {
       return res.status(404).json({

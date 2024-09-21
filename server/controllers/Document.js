@@ -277,7 +277,7 @@ exports.getAllDocumentsOfUser = async (req, res) => {
 exports.shareFormLink = async (req, res) => {
   try {
     const userId = req.user.id;
-    // console.log("User ID [Document]->", userId);
+    console.log("User ID [Document]->", userId);
     const { email } = req.body;
     if (!email) {
       return res.status(404).json({
@@ -306,16 +306,16 @@ exports.shareFormLink = async (req, res) => {
     const username = email.split("@")[0];
     const capitalizedUsername =
       username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
-    // console.log("Username [Document]->", capitalizedUsername);
+    console.log("Username [Document]->", capitalizedUsername);
 
     const tokenizedLink = `${formLink}/${token}`;
-    // console.log("Tokenized Link [Document]->", tokenizedLink);
+    console.log("Tokenized Link [Document]->", tokenizedLink);
     const shareFormLinkMailRes = await mailSender(
       email,
       "Filled the form to get the document",
       shareFomrLinkTemplate({ capitalizedUsername, tokenizedLink })
     );
-    // console.log("Mail Send Successfully [Document]->", shareFormLinkMailRes);
+    console.log("Mail Send Successfully [Document]->", shareFormLinkMailRes);
     return res.status(200).json({
       success: true,
       message: "Mail send successfully [Document]",
