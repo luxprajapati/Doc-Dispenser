@@ -17,7 +17,7 @@ exports.resetPasswordToken = async (req, res) => {
     }
     const token = crypto.randomBytes(20).toString("hex");
 
-    const updatedDetails = await UserModel.findByIdAndUpdate(
+    const updatedDetails = await UserModel.findOneAndUpdate(
       { email: email },
       {
         token: token,

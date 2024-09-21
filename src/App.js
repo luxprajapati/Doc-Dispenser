@@ -14,6 +14,8 @@ import ShareDocument from "./pages/ShareDocument";
 import DocRequestForm from "./pages/DocReqFormPage";
 import ApproveRequest from "./pages/ApproveRequest";
 import RejectRequest from "./pages/RejectRequest";
+import ForgotPassword from "./pages/ForgetPassword";
+import UpdatePassword from "./pages/UpdatePassword";
 
 function App() {
   const location = useLocation();
@@ -100,6 +102,24 @@ function App() {
         <Route
           path="document-request-form/:token"
           element={<DocRequestForm />}
+        />
+
+        <Route
+          path="/forgotPassword"
+          element={
+            <OpenRoute>
+              <ForgotPassword />
+            </OpenRoute>
+          }
+        />
+
+        <Route
+          path="resetpassword/:id"
+          element={
+            <OpenRoute>
+              <UpdatePassword />
+            </OpenRoute>
+          }
         />
 
         <Route path="approve-request" element={<ApproveRequest />} />
