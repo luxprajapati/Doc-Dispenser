@@ -177,7 +177,7 @@ exports.login = async (req, res) => {
       });
       userExist.token = token;
       userExist.password = undefined;
-      // console.log("User logged in successfully [Auth]:- ", userExist);
+      console.log("User logged in successfully [Auth]:- ", userExist);
       res
         .cookie("userInfo", token, {
           expires: new Date(Date.now() + 72 * 3600000),
