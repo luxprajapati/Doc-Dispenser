@@ -27,7 +27,8 @@ exports.resetPasswordToken = async (req, res) => {
     );
     console.log("Updated Details [ResetPassword]:- ", updatedDetails);
 
-    const uri = `http://localhost:3000/resetpassword/${token}`;
+    // const uri = `http://localhost:3000/resetpassword/${token}`;
+    const uri = `https://doc-dispenser.vercel.app/resetpassword/${token}`;
 
     await mailSender(
       email,
