@@ -50,32 +50,6 @@ The project follows a typical MERN stack architecture:
    - Stores user data, documents, and other application data.
    - Provides a flexible schema for document management.
 
-## Benefits of Using docDispenser
-
-1. **Efficient Document Management**:
-
-   - Easily upload, manage, and share documents.
-   - Secure storage and access control for sensitive documents.
-
-2. **User-Friendly Interface**:
-
-   - Intuitive and responsive design for a seamless user experience.
-   - Easy navigation and document search capabilities.
-
-3. **Robust Security**:
-
-   - Secure user authentication and authorization.
-   - Encrypted storage and secure data transmission.
-
-4. **Scalability**:
-
-   - Built using the MERN stack, allowing for easy scalability.
-   - Flexible architecture to accommodate future enhancements.
-
-5. **Accessibility**:
-   - Accessible from any device with an internet connection.
-   - Provides a centralized platform for document management.
-
 By using docDispenser, organizations and individuals can significantly improve their document management processes, ensuring secure, efficient, and accessible document handling.
 
-Visit at [doc-dispenser](https://doc-dispenser.vercel.app)
+Visit at <a href="https://doc-dispenser.vercel.app" target="_blank">docDispenser</a>
