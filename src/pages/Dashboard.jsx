@@ -113,7 +113,7 @@ const Dashboard = () => {
     };
   }, []);
 
-  console.log("docList->", docList);
+  // console.log("docList->", docList);
   return (
     <div className=" flex flex-col justify-center items-start gap-y-10  w-11/12 md:w-10/12 mx-auto my-9 ">
       {/* Create documents */}

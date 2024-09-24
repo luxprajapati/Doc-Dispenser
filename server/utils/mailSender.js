@@ -19,7 +19,7 @@ exports.mailSender = async (email, subject, body) => {
       html: `${body}`,
     });
 
-    console.log("Mail info:- ", info);
+    // console.log("Mail info:- ", info);
     return info;
   } catch (err) {
     console.log("Error while sending mail [mailSender.js]");

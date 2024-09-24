@@ -177,7 +177,7 @@ exports.login = async (req, res) => {
       });
       userExist.token = token;
       userExist.password = undefined;
-      console.log("User logged in successfully [Auth]:- ", userExist);
+      // console.log("User logged in successfully [Auth]:- ", userExist);
       res
         .cookie("userInfo", token, {
           expires: new Date(Date.now() + 72 * 3600000),
@@ -241,7 +241,7 @@ exports.changePassword = async (req, res) => {
         )
       );
 
-      console.log("Email Response [Auth]:- ", emailResponse);
+      // console.log("Email Response [Auth]:- ", emailResponse);
     } catch (err) {
       console.log(
         "Error while notify to the user about change password [Auth]:- ",

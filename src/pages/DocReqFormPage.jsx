@@ -78,7 +78,7 @@ const DocReqFormPage = () => {
     toast.dismiss(toastId);
   };
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     submitRequestInBackend(data);
   };
 
