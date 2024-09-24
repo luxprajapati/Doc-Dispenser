@@ -301,7 +301,7 @@ exports.shareFormLink = async (req, res) => {
     await TokenModel.create({
       userId: userId,
       token: token,
-      expiry: Date.now() + 2000 * 60 * 1000,
+      expiry: Date.now() + 2 * 60 * 1000,
     });
 
     const username = email.split("@")[0];
