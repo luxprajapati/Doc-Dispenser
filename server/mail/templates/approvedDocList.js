@@ -61,6 +61,8 @@ const approvedDocumentsListTemplate = ({ documentList }) => {
 
     .document-links ul li a {
       display: block;
+      flex-direction: row;
+      justify-items: flex-start;
       background-color: #0073e6;
       color: #fff;
       padding: 10px;
@@ -68,8 +70,10 @@ const approvedDocumentsListTemplate = ({ documentList }) => {
       text-decoration: none;
       font-size: 14px;
       text-align: center;
-      width: 100%;
-      margin: 0 auto;
+      width: 75%;
+      margin: auto;
+      transform:translateX(-5px);
+      cursor: pointer;
     }
 
     .footer {
@@ -103,8 +107,7 @@ const approvedDocumentsListTemplate = ({ documentList }) => {
         <ul>
         ${documentList.map((doc, index) => {
           return `<li><a href="${doc.link}">${doc.name}</a></li>`;
-        })}
-        
+        })}.join("")
         </ul>
       </div>
 
