@@ -113,10 +113,11 @@ const Dashboard = () => {
     };
   }, []);
 
+  
   const handlePdfViewer = (file) => {
-    navigate("/pdf-viewer", { state: { file } });
+    const pdfViewerUrl = `/pdf-viewer?file=${encodeURIComponent(file)}`;
+    navigate(pdfViewerUrl, { replace: true });
   };
-  console.log(handlePdfViewer);
 
   // console.log("docList->", docList);
   return (
@@ -154,10 +155,7 @@ const Dashboard = () => {
             >
               <div
                 className=" md:w-[75%] w-[60%] cursor-pointer font-poppins"
-                // onClick={() => handlePdfViewer(doc.file)}
-                onClick={() => {
-                  window.open(doc.file, "_blank");
-                }}
+                onClick={() => handlePdfViewer(doc.file)}
               >
                 {windowWidth <= 375
                   ? doc.documentName.length > 15
