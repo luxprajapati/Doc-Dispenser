@@ -16,6 +16,7 @@ import ApproveRequest from "./pages/ApproveRequest";
 import RejectRequest from "./pages/RejectRequest";
 import ForgotPassword from "./pages/ForgetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
+import PdfViewer from "./components/common/PDFViewer";
 
 function App() {
   const location = useLocation();
@@ -121,6 +122,8 @@ function App() {
             </OpenRoute>
           }
         />
+
+        <Route path="/pdf-viewer" element={<PdfViewer />} />
 
         <Route path="approve-request" element={<ApproveRequest />} />
         <Route path="reject-request" element={<RejectRequest />} />

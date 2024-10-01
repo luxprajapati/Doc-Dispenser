@@ -113,6 +113,10 @@ const Dashboard = () => {
     };
   }, []);
 
+  const handlePdfViewer = (file) => {
+    navigate("/pdf-viewer", { state: { file } });
+  };
+
   // console.log("docList->", docList);
   return (
     <div className=" flex flex-col justify-center items-start gap-y-10  w-11/12 md:w-10/12 mx-auto my-9 ">
@@ -149,9 +153,10 @@ const Dashboard = () => {
             >
               <div
                 className=" md:w-[75%] w-[60%] cursor-pointer font-poppins"
-                onClick={() => {
-                  window.open(doc.file);
-                }}
+                onClick={() => handlePdfViewer(doc.file)}
+                // onClick={() => {
+                //   window.open(doc.file);
+                // }}
               >
                 {windowWidth <= 375
                   ? doc.documentName.length > 15

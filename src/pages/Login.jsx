@@ -25,12 +25,19 @@ const Login = () => {
     dispatch(login(email, password, navigate));
   };
 
+  const googleAuth = () => {
+    window.open(`${process.env.REACT_APP_BASE_URI}/google/callback`, "_self");
+  };
+
   return (
     <div className="flex items-center w-full justify-center my-auto font-poppins ">
       <div className="bg-slate-100 p-8 rounded-lg shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset] w-11/12 max-w-md  ">
         <h1 className="text-2xl font-bold mb-6">Login</h1>
         <p className="mb-4">Hi, Welcome back 👋</p>
-        <button className="w-full border border-zinc-900  text-zinc-900 py-2 rounded-lg mb-4 flex items-center justify-center">
+        <button
+          onClick={googleAuth}
+          className="w-full border border-zinc-900  text-zinc-900 py-2 rounded-lg mb-4 flex items-center justify-center"
+        >
           <FcGoogle className="mx-2 text-[20px]" />
           Login with Google
         </button>
