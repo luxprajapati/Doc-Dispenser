@@ -61,7 +61,12 @@ const Signup = () => {
         <div className="bg-slate-100 p-8 rounded-lg shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset] w-11/12 max-w-md  ">
           <h1 className="text-2xl font-bold mb-6">Signup</h1>
           <p className="mb-4">Hi, Welcome 👋</p>
-          <button className="w-full border border-zinc-900  text-zinc-900 py-2 rounded-lg mb-4 flex items-center justify-center">
+          <button
+            onClick={() => {
+              alert("Google Auth is disabled for now");
+            }}
+            className="w-full border border-zinc-900  text-zinc-900 py-2 rounded-lg mb-4 flex items-center justify-center"
+          >
             <FcGoogle className="mx-2 text-[20px]" />
             Signup with Google
           </button>

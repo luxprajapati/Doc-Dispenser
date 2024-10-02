@@ -35,7 +35,10 @@ const Login = () => {
         <h1 className="text-2xl font-bold mb-6">Login</h1>
         <p className="mb-4">Hi, Welcome back 👋</p>
         <button
-          onClick={googleAuth}
+          // onClick={googleAuth}
+          onClick={() => {
+            alert("Google Auth is disabled for now");
+          }}
           className="w-full border border-zinc-900  text-zinc-900 py-2 rounded-lg mb-4 flex items-center justify-center"
         >
           <FcGoogle className="mx-2 text-[20px]" />
