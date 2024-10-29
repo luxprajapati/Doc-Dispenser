@@ -16,6 +16,7 @@ import ApproveRequest from "./pages/ApproveRequest";
 import RejectRequest from "./pages/RejectRequest";
 import ForgotPassword from "./pages/ForgetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const location = useLocation();
@@ -41,7 +42,11 @@ function App() {
           path="login"
           element={
             <OpenRoute>
-              <Login />
+              <GoogleOAuthProvider
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              >
+                <Login />
+              </GoogleOAuthProvider>
             </OpenRoute>
           }
         />
@@ -50,7 +55,11 @@ function App() {
           path="signup"
           element={
             <OpenRoute>
-              <Signup />
+              <GoogleOAuthProvider
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              >
+                <Signup />
+              </GoogleOAuthProvider>
             </OpenRoute>
           }
         />

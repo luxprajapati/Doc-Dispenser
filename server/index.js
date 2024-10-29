@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://doc-dispenser.vercel.app",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -36,9 +36,11 @@ app.use(
 // cloudinary connection
 cloudinaryConnect();
 
+const authRouter = require("./routes/UserRoute");
 // routes
 app.use("/api/v1/auth", userRoute);
 app.use("/api/v1/document", documentRoute);
+app.use("/api/v1/google-auth", authRouter);
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on Port ${PORT}`);

@@ -7,7 +7,81 @@ const bcrypt = require("bcryptjs");
 const { mailSender } = require("../utils/mailSender");
 const { passwordUpdatation } = require("../mail/templates/passwordUpdation");
 
+// google auth
+const axios = require("axios");
+const oauth2client = require("../utils/oauth2client");
+const catchAsync = require("../utils/catchAsync");
+const { passwordGenerator } = require("../utils/passwordGenerator");
+
 require("dotenv").config();
+
+// code for google oAuth
+
+const signToken = (id) => {
+  return JWT.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "2d",
+  });
+};
+
+const createSendToken = (user, statusCode, res) => {
+  console.log("Server Auth.js line 26:- ", user._id);
+  console.log("Server Auth.js line 27:- ", user);
+
+  const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(Date.now() + 72 * 3600000),
+    httpOnly: true,
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  };
+  user.password = undefined;
+
+  res.cookie("jwt", token, cookieOptions);
+
+  res.status(statusCode).json({
+    status: "success",
+    message: "User logged in successfully",
+    token,
+    data: user,
+  });
+
+  // res.status(statusCode).redirect("http://localhost:3000/dashboard");
+};
+
+exports.googleAuth = catchAsync(async (req, res) => {
+  const code = req.query.code;
+  console.log("Code:- ", code);
+  if (!code) {
+    return res.status(400).json({
+      status: "fail",
+      message: "No code provided",
+    });
+  }
+
+  const googleRes = await oauth2client.oauth2client.getToken(code);
+  oauth2client.oauth2client.setCredentials(googleRes.tokens);
+
+  const userRes = await axios.get(
+    `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
+  );
+
+  let user = await UserModel.findOne({ email: userRes.data.email });
+
+  if (!user) {
+    console.log("User not found, creating new user");
+    const generatePassword = passwordGenerator(userRes.data);
+    user = await UserModel.create({
+      firstName: userRes.data.given_name,
+      lastName: userRes.data.family_name,
+      email: userRes.data.email,
+      password: generatePassword,
+    });
+  }
+
+  console.log("User:- ", user);
+  createSendToken(user, 201, res);
+});
 
 // Function to send OTP to the user
 exports.sendOtp = async (req, res) => {

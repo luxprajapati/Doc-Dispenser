@@ -10,6 +10,7 @@ const {
   RESETPASSWORDTOKEN_API,
   RESETPASSWORD_API,
   CHANGEPASSWORD_API,
+  GOOGLEAUTH_API,
 } = endpoints;
 
 export function sentotp(email, navigate) {
@@ -89,6 +90,7 @@ export function login(email, password, navigate) {
         throw new Error(response.data.message);
       }
       toast.success("Login Successful");
+      console.log("token in email login:- ", response.data);
       dispatch(setToken(response.data.token));
       localStorage.setItem("token", JSON.stringify(response.data.token));
       navigate("/dashboard");
@@ -98,6 +100,38 @@ export function login(email, password, navigate) {
     }
     dispatch(setLoading(false));
     toast.dismiss(toastId);
+  };
+}
+// `http://localhost:4000/api/v1/google-auth/google`,
+export function loginGoogle(authResult, navigate, status) {
+  return async (dispatch) => {
+    dispatch(setLoading(true));
+    try {
+      if (authResult["code"]) {
+        console.log("Auth Result Code", authResult.code);
+
+        const result = await apiConnector(
+          "GET",
+          GOOGLEAUTH_API,
+          null,
+          null,
+          { code: authResult.code } // passing code as a query parameter
+        );
+
+        console.log("Auth Result", result.data);
+
+        dispatch(setToken(result.data.token));
+        localStorage.setItem("token", JSON.stringify(result.data.token));
+        navigate("/dashboard");
+      } else {
+        console.log("Auth Result", authResult);
+        throw new Error(authResult);
+      }
+    } catch (error) {
+      console.log("Error in Google Login", error);
+      toast.error("Google Login Failed");
+    }
+    dispatch(setLoading(false));
   };
 }
 
