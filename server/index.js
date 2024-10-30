@@ -47,5 +47,5 @@ const server = app.listen(PORT, () => {
 });
 
 server.on("error", (err) => {
-  console.log("ERROR WHILE CONNECTING TO THE DATABASE SERVER:- ", err);
+  console.log("ERROR WHILE CONNECTING TO THE DATABASE SERVER :- ", err);
 });
