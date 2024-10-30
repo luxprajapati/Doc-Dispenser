@@ -446,11 +446,11 @@ exports.sendMailToOwner = async (req, res) => {
       });
     }
 
-    // const approveUrl = `http://localhost:3000/approve-request?documents=${encodeURIComponent(JSON.stringify(documentList))}&email=${encodeURIComponent(email)}`;
-    // const rejectUrl = `http://localhost:3000/reject-request?email=${encodeURIComponent(email)}`;
+    const approveUrl = `http://localhost:3000/approve-request?documents=${encodeURIComponent(JSON.stringify(documentList))}&email=${encodeURIComponent(email)}`;
+    const rejectUrl = `http://localhost:3000/reject-request?email=${encodeURIComponent(email)}`;
 
-    const approveUrl = `https://doc-dispenser.vercel.app/approve-request?documents=${encodeURIComponent(JSON.stringify(documentList))}&email=${encodeURIComponent(email)}`;
-    const rejectUrl = `https://doc-dispenser.vercel.app/reject-request?email=${encodeURIComponent(email)}`;
+    // const approveUrl = `https://doc-dispenser.vercel.app/approve-request?documents=${encodeURIComponent(JSON.stringify(documentList))}&email=${encodeURIComponent(email)}`;
+    // const rejectUrl = `https://doc-dispenser.vercel.app/reject-request?email=${encodeURIComponent(email)}`;
 
     const sendingMailToOwner = await mailSender(
       documentOwner.email,

@@ -3,8 +3,9 @@ import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { sentotp } from "../services/operations/authAPI";
+import { loginGoogle, sentotp } from "../services/operations/authAPI";
 import { setSignupData } from "../redux/slices/authSlice";
+import { useGoogleLogin } from "@react-oauth/google";
 import Spinner from "../components/common/Spinner";
 
 const Signup = () => {
@@ -50,21 +51,26 @@ const Signup = () => {
     });
   };
 
+  const googleSignup = useGoogleLogin({
+    onSuccess: (authResult) => {
+      dispatch(loginGoogle(authResult, navigate, "signup"));
+    },
+    onError: (authResult) => {
+      dispatch(loginGoogle(authResult, navigate, "signup"));
+    },
+    flow: "auth-code",
+  });
+
   return (
     <div className="flex items-center w-full justify-center my-auto font-poppins ">
       {loading ? (
-        <div>
-          {" "}
-          <Spinner />{" "}
-        </div>
+        <Spinner />
       ) : (
         <div className="bg-slate-100 p-8 rounded-lg shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset] w-11/12 max-w-md  ">
           <h1 className="text-2xl font-bold mb-6">Signup</h1>
           <p className="mb-4">Hi, Welcome 👋</p>
           <button
-            onClick={() => {
-              alert("Google Auth is disabled for now");
-            }}
+            onClick={googleSignup}
             className="w-full border border-zinc-900  text-zinc-900 py-2 rounded-lg mb-4 flex items-center justify-center"
           >
             <FcGoogle className="mx-2 text-[20px]" />
@@ -161,10 +167,10 @@ const Signup = () => {
               </div>
             </div>
             {/* <div className="flex items-center justify-between mb-6">
-          <NavLink to="/forgotPassword" className="text-blue-500">
-            Forgot Password?
-          </NavLink>
-        </div> */}
+            <NavLink to="/forgotPassword" className="text-blue-500">
+              Forgot Password?
+            </NavLink>
+          </div> */}
             <button
               type="submit"
               className="w-full bg-blue-500 text-white py-2 rounded-lg"
@@ -172,13 +178,12 @@ const Signup = () => {
               Signup
             </button>
           </form>
-
           {/* <div className="text-center mt-6">
-        Not registered yet?{" "}
-        <NavLink to="/signup" className="text-blue-500">
-          Crate an account
-        </NavLink>
-      </div> */}
+          Not registered yet?{" "}
+          <NavLink to="/signup" className="text-blue-500">
+            Crate an account
+          </NavLink>
+        </div> */}
         </div>
       )}
     </div>

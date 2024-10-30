@@ -35,5 +35,9 @@ router.post("/change-password", auth, changePassword);
 router.post("/reset-password-token", resetPasswordToken);
 router.post("/reset-password", resetPassword);
 
+// google auth
+const authController = require("../controllers/Auth");
+router.get("/google", authController.googleAuth);
+
 // Export the router for using in main app
 module.exports = router;
