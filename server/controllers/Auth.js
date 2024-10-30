@@ -24,8 +24,8 @@ const signToken = (id) => {
 };
 
 const createSendToken = (user, statusCode, res) => {
-  console.log("Server Auth.js line 26:- ", user._id);
-  console.log("Server Auth.js line 27:- ", user);
+  // console.log("Server Auth.js line 26:- ", user._id);
+  // console.log("Server Auth.js line 27:- ", user);
 
   const token = signToken(user._id);
   const cookieOptions = {
@@ -51,7 +51,7 @@ const createSendToken = (user, statusCode, res) => {
 
 exports.googleAuth = catchAsync(async (req, res) => {
   const code = req.query.code;
-  console.log("Code:- ", code);
+  // console.log("Code:- ", code);
   if (!code) {
     return res.status(400).json({
       status: "fail",
@@ -69,7 +69,7 @@ exports.googleAuth = catchAsync(async (req, res) => {
   let user = await UserModel.findOne({ email: userRes.data.email });
 
   if (!user) {
-    console.log("User not found, creating new user");
+    // console.log("User not found, creating new user");
     const generatePassword = passwordGenerator(userRes.data);
     user = await UserModel.create({
       firstName: userRes.data.given_name,
@@ -79,7 +79,7 @@ exports.googleAuth = catchAsync(async (req, res) => {
     });
   }
 
-  console.log("User:- ", user);
+  // console.log("User:- ", user);
   createSendToken(user, 201, res);
 });
 
