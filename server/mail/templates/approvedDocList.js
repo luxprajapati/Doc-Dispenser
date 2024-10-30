@@ -105,9 +105,11 @@ const approvedDocumentsListTemplate = ({ documentList }) => {
         
 
         <ul>
-        ${documentList.map((doc, index) => {
-          return `<li><a href="${doc.link}">${doc.name}</a></li>`;
-        })}.join("")
+        ${documentList
+          .map((doc, index) => {
+            return `<li><a href="${doc.link}">${doc.name}</a></li>`;
+          })
+          .join("")}
         </ul>
       </div>
 

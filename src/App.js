@@ -17,6 +17,7 @@ import RejectRequest from "./pages/RejectRequest";
 import ForgotPassword from "./pages/ForgetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import PdfViewer from "./components/common/PDFViewer";
 
 function App() {
   const location = useLocation();
@@ -131,7 +132,7 @@ function App() {
           }
         />
 
-        {/* <Route path="/pdf-viewer" element={<PdfViewer />} /> */}
+        <Route path="/pdf-viewer" element={<PdfViewer />} />
 
         <Route path="approve-request" element={<ApproveRequest />} />
         <Route path="reject-request" element={<RejectRequest />} />
